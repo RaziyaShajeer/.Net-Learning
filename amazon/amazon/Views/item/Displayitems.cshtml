@@ -4,12 +4,12 @@
     ViewData["Title"] = "Displayitems";
 }
 
-<h1>Displayitems</h1>
+<h1 class="text-center">Item List</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Additem" class="btn btn-dark">Add New</a>
 </p>
-<table class="table">
+<table class="table table-light table-striped">
     <thead>
         <tr>
             <th>
@@ -37,11 +37,18 @@
                 @Html.DisplayFor(modelItem => item.quantity)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" class="btn btn-warning" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="getDetails" class="btn btn-primary" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" class="btn btn-danger" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
+
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert alert-info">
+                @TempData["Message"]
+            </div>
+        }
     </tbody>
 </table>
