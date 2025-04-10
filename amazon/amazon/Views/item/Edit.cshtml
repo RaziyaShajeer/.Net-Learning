@@ -1,19 +1,20 @@
 ﻿@model amazon.Models.item
 
 @{
-    ViewData["Title"] = "Additem";
+    ViewData["Title"] = "Edit";
 }
 
-<h1 class="text-center">Add Item</h1>
+<h1 class="text-center mb-3">Edit Item</h1>
 
 
 
-<div class=" container d-flex justify-content-center align-items-center style="min-height:80vh">
-    <div class="w-50">
-        <form asp-action="Additem" class="shadow p-4 rounded bg-light">
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="col-md-4">
+        <form asp-action="Edit" class="shadow rounded p-4 bg-light">
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <input type="hidden" asp-for="Id" />
             <div class="form-group mb-3">
-                <label asp-for="Name" class="control-label text-dark fw-bold"></label>
+                <label asp-for="Name" class="control-label fw-bold"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
@@ -22,26 +23,25 @@
                 <input asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
-            <div class="form-group mb-4">
+            <div class="form-group mb-3">
                 <label asp-for="quantity" class="control-label fw-bold"></label>
                 <input asp-for="quantity" class="form-control" />
                 <span asp-validation-for="quantity" class="text-danger"></span>
             </div>
             <div class="form-group text-center">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
-<div class="d-flex justify-content-center mt-3">
-    <a asp-action="Displayitems" >Back to List</a>
+<div class="text-center mt-3">
+    <a asp-action="Displayitems">Back to List</a>
 </div>
 
-
-@if (ViewData["Message"] != null)
+@if(ViewBag.message != null)
 {
-    <div class="alert alert-success">@ViewData["Message"]</div>
+    <div class="alert alert-success">@ViewBag.message</div>
 }
 
 @section Scripts {
