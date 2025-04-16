@@ -1,0 +1,39 @@
+﻿@model IEnumerable<ImageUploas.Models.Student>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<style>
+    .student-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 20px;
+        padding: 20px;
+    }
+    .student-card {
+        text-align: center;
+    }
+    .student-card img {
+        width: 200px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+</style>
+
+<div class="student-grid">
+    @foreach (var student in Model)
+    {
+        <div class="student-card">
+            <img src="@Url.Content("~/" + student.Image)" alt="Image" />
+            <div>@student.Name</div>
+        </div>
+    }
+</div>
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
