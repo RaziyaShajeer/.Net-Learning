@@ -1,0 +1,49 @@
+﻿@model amazon.Models.item
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1 class="text-center mb-3">Edit Item</h1>
+
+
+
+<div class="container d-flex justify-content-center align-items-center">
+    <div class="col-md-4">
+        <form asp-action="Edit" class="shadow rounded p-4 bg-light">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group mb-3">
+                <label asp-for="Name" class="control-label fw-bold"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Description" class="control-label fw-bold"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="quantity" class="control-label fw-bold"></label>
+                <input asp-for="quantity" class="form-control" />
+                <span asp-validation-for="quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group text-center">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="text-center mt-3">
+    <a asp-action="Displayitems">Back to List</a>
+</div>
+
+@if(ViewBag.message != null)
+{
+    <div class="alert alert-success">@ViewBag.message</div>
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

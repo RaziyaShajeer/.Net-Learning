@@ -53,6 +53,10 @@ namespace ImageUploas.Controllers
 				{
 					await student.Image.CopyToAsync(stream);
 				}
+				var st = _mapper.Map<Student>(student);
+				st.Image = filePath;
+				_studentContext.Students.AddAsync(st);
+				_studentContext.SaveChanges();
 
 				// Save relative path to DB
 				var std=_mapper.Map<Student>(student);
@@ -63,11 +67,12 @@ namespace ImageUploas.Controllers
 			}
 		return View();	
 
-			
+
+			return View(student);	
 		}
 
 			
-		}
-
 	}
+
+}
 
