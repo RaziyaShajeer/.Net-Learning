@@ -5,7 +5,7 @@ namespace WebApplication13.Repository
 {
     public class AdminRepository : IStudentrepository
     {
-        bool IStudentrepository.AddStudent(Student student)
+        Student IStudentrepository.AddStudent(Student student)
         {
             throw new NotImplementedException();
         }

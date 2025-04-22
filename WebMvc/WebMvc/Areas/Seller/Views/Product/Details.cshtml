@@ -1,0 +1,25 @@
+﻿@model WebMvc.Models.ProductModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Product Details</h1>
+
+<div class="container rounded mt-3 p-3">
+    <div class="card shadow text-center w-50 mx-auto">
+        <div class="card-body">
+            <h1 class="card-title">@Html.DisplayFor(model => model.Name)</h1>
+            <p class="card-text">@Html.DisplayFor(model => model.Description)</p>
+            <p class="card-text"><strong>Image:</strong> @Html.DisplayFor(model => model.Image)</p>
+            <p class="card-text"><strong>Stock:</strong> @Html.DisplayFor(model => model.Stock)</p>
+            <p class="card-text"><strong>Price:</strong> $@Html.DisplayFor(model => model.Price)</p>
+            <p class="card-text"><strong>Status:</strong> @Html.DisplayFor(model => model.Status)</p>
+            <p class="card-text"><strong>Category:</strong> @Html.DisplayFor(model => model.Category.CatagoryId)</p>
+        </div>
+    </div>
+</div>
+<div class="text-center">
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

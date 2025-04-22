@@ -1,0 +1,26 @@
+﻿@model WebMvc.Models.catagoryModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>catagory</h4>
+    <hr />
+
+    <div class="container  rounded mt-3 p-3">
+        <div class="card shadow text-center w-50 mx-auto">
+            <div class="card-body">
+                <h1 class="card-title">@Model.CatagoryName</h1>
+                <p class="card-text">@Model.CatagoryDetails</p>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.CatagoryId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

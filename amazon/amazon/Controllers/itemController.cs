@@ -64,7 +64,7 @@ namespace amazon.Controllers
             olditm.Name = updtitm.Name;
             olditm.Description = updtitm.Description;
             olditm.quantity = updtitm.quantity;
-            context.Items.Update(olditm);
+            context.Items.Update(olditm);   
             context.SaveChanges();
             ViewBag.message = "Editted Successfully";
             return View();
@@ -88,24 +88,6 @@ namespace amazon.Controllers
             }
             return RedirectToAction("Displayitems");
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
