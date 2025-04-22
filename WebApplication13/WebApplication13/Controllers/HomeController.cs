@@ -11,11 +11,10 @@ public class HomeController : Controller
     IStudentrepository studentrepository = new StudentRepository();
 
     private readonly ILogger<HomeController> _logger;
-    ApplicationDbContext context = new ApplicationDbContext();
-    public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+    public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
-        this.context = context;
+       
     }
 
     public IActionResult Index()
@@ -33,12 +32,5 @@ public class HomeController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-    [HttpGet]
-    public IActionResult Getstudents()
-    {
-        var students = studentrepository.GetStudents();
-
-
-        return View(students);
-    }
+    
 }
