@@ -10,9 +10,19 @@ namespace WebApplication13.Repository
             throw new NotImplementedException();
         }
 
-        List<Student> IStudentrepository.GetStudents()
+		Student IStudentrepository.FindStudent(int id)
+		{
+			throw new NotImplementedException();
+		}
+
+		List<Student> IStudentrepository.GetStudents()
         {
             throw new NotImplementedException();
         }
-    }
+
+		Student IStudentrepository.UpdateStudent(Student student)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

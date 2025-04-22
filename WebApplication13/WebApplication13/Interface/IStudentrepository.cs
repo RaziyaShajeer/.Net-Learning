@@ -7,10 +7,9 @@ namespace WebApplication13.Interface
         public List<Student> GetStudents();
         public Student AddStudent(Student student);
 
-       
         public Student FindStudent(int id);
 
-
+        public Student Login(string email);
         public Student UpdateStudent(Student student);
         
     }
