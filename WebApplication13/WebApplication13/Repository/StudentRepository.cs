@@ -23,12 +23,23 @@ namespace WebApplication13.Repository
         public Student FindStudent(int id)
         {
             return _context.Students.Where(e => e.Id == id).FirstOrDefault();
+
+        }
+        public Student Login(string email)
+        {
+            return _context.Students.FirstOrDefault(e => e.Email == email);
         }
 
-        public void UpdateStudent(Student student)
-        {
+
+		public Student UpdateStudent(Student student)
+		{
             _context.Students.Update(student);
             _context.SaveChanges();
+            return student;
+          
         }
-    }
+
+	
+	
+	}
 }

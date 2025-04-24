@@ -60,5 +60,11 @@ namespace WebApplication13.Controllers
             ViewBag.message = "Edited Successfully";
             return View();
     }
+        [HttpPost]
+        public IActionResult Login(string email)
+        {
+            studentrepository.Login(email); 
+            return View();
+        }
 }
     }

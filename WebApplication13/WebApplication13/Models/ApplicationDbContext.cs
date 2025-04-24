@@ -8,7 +8,7 @@ namespace WebApplication13.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-P7C5TMH;Initial Catalog=webdb13;Integrated Security=True;Trust Server Certificate=True");
+            optionsBuilder.UseSqlServer("Data Source=DESKTOP-PBRNQVI;Initial Catalog=webdb13;Integrated Security=True;Trust Server Certificate=True");
         }
     }
 }
