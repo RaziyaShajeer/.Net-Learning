@@ -1,8 +1,12 @@
-﻿namespace FoodOrderingSystem.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FoodOrderingSystem.Models
 {
     public class Dishes
     {
-        public int DishID { get; set; }
+        
+        public Guid DishID { get; set; }
+        
         public string DishName { get; set; }
         public string DishCategory { get; set; }
         public decimal Price { get; set; }
