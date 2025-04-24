@@ -39,7 +39,7 @@ namespace exammodel.Controllers
         public IActionResult GetDetails(int id)
         {
 
-            teacher tea = _context.teachers.Where(e => e.Id == id).FirstOrDefault();
+            teacher tea = _context.teachers.Where(e=>e.Id==id).FirstOrDefault();
             return View(tea);
 
         }
