@@ -1,23 +1,42 @@
-﻿using OnlineFoodOrderingSystem.Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
-namespace OnlineFoodOrderingSystem.Models
+namespace OnlineFoodOrderingSystem.Models;
+
+[Table("Dish")]
+public partial class Dish
 {
-	public class Dish
-	{
-		public Guid DishId { get; set; }
-		public string Name { get; set; }	
-		public string Description { get; set; }
-		public RestaurantType Type { get; set; }
-		public byte[] DishImage { get; set; }
-		public Category category { get; set; }
-		public Availablity Availablity { get;set; }
-		[ForeignKey("Restaurant")]	
-		
-		public Guid RestaurantId { get; set; }	
-		public Restaurant Restaurant { get; set; }
-		public DateTime createdAt { get; set; } = DateTime.Now;
+    [Key]
+    public Guid DishId { get; set; }
 
+    [StringLength(50)]
+    [Unicode(false)]
+    public string DishName { get; set; } = null!;
 
-	}
+    [Unicode(false)]
+    public string Description { get; set; } = null!;
+
+    public byte[]? DishImage { get; set; }
+
+    public int Category { get; set; }
+
+    public int Availablity { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime Createdat { get; set; }
+
+    public Guid RestaurantId { get; set; }
+
+    [Column(TypeName = "decimal(18, 0)")]
+    public decimal? Price { get; set; }
+
+    [InverseProperty("Dish")]
+    public virtual ICollection<Cartitem> Cartitems { get; set; } = new List<Cartitem>();
+
+    [ForeignKey("RestaurantId")]
+    [InverseProperty("Dishes")]
+    public virtual RestaurantProfile Restaurant { get; set; } = null!;
 }

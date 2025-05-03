@@ -1,10 +1,24 @@
-﻿namespace OnlineFoodOrderingSystem.Models
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
+
+namespace OnlineFoodOrderingSystem.Models;
+
+[Table("Location")]
+public partial class Location
 {
-	public class Location
-	{
-		public Guid Id { get; set; }
-		public string Name { get; set; }
-		public virtual ICollection<User> Users { get; set; }
-		public virtual ICollection<Restaurant> Restaurants { get; set; }
-	}
+    [Key]
+    public Guid LoactionId { get; set; }
+
+    [StringLength(10)]
+    public string LocationName { get; set; } = null!;
+
+    [InverseProperty("Location")]
+    public virtual ICollection<RestaurantProfile> RestaurantProfiles { get; set; } = new List<RestaurantProfile>();
+
+    [InverseProperty("Location")]
+    public virtual ICollection<User> Users { get; set; } = new List<User>();
+        public virtual ICollection<Abc> abcs { get; set; }
 }
