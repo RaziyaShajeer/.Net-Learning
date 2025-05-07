@@ -8,16 +8,7 @@
 
 <head>
     <style>
-        body {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092') no-repeat center center/cover;
-            min-height: 100vh;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .container {
+        .reg{
             max-width: 500px;
             height: 600px;
             padding: 20px;
@@ -26,6 +17,7 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-top:50px;
         }
 
         .btn {
@@ -39,9 +31,8 @@
     </style>
 </head>
 
-
-
-    <div class="container">
+<div class="row">
+    <div class="container reg" >
         <h2 class="text-center mb-4">Register</h2>
         <form asp-action="Register">
             <div class="row">
@@ -54,7 +45,7 @@
                     <label asp-for="Lastname" class="control-label"></label>
                     <input asp-for="Lastname" class="form-control" />
                     <span asp-validation-for="Lastname" class="text-danger"></span>
-                    
+
                 </div>
 
                 <div class="col-md-6 mb-3">
@@ -94,6 +85,9 @@
 
 
     </div>
+</div>
+
+    
 
 
 
