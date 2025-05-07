@@ -1,15 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OnlineFoodOrderingSystem.Models
 {
 	public class RestaurantAdmin : User
 	{
-		public Guid RestaurantAdminId { get; set; }
-		[ForeignKey("Location")]
+		[ForeignKey("Restaurant")]
 		public Guid RestaurantId { get; set; }
-		public virtual Restaurant Restaurant
-		{
-			get; set;
-		}
+		public virtual Restaurant Restaurant { get; set; }
 	}
 }

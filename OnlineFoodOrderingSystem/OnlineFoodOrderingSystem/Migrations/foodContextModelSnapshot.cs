@@ -144,9 +144,6 @@ namespace OnlineFoodOrderingSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("RestaurantId1")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("Role")
                         .HasColumnType("int");
 
@@ -161,8 +158,6 @@ namespace OnlineFoodOrderingSystem.Migrations
 
                     b.HasIndex("LocationId");
 
-                    b.HasIndex("RestaurantId1");
-
                     b.ToTable("Users");
 
                     b.HasDiscriminator().HasValue("User");
@@ -173,9 +168,6 @@ namespace OnlineFoodOrderingSystem.Migrations
             modelBuilder.Entity("OnlineFoodOrderingSystem.Models.RestaurantAdmin", b =>
                 {
                     b.HasBaseType("OnlineFoodOrderingSystem.Models.User");
-
-                    b.Property<Guid>("RestaurantAdminId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("RestaurantId")
                         .HasColumnType("uniqueidentifier");
@@ -215,17 +207,13 @@ namespace OnlineFoodOrderingSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OnlineFoodOrderingSystem.Models.Restaurant", null)
-                        .WithMany("Users")
-                        .HasForeignKey("RestaurantId1");
-
                     b.Navigation("Location");
                 });
 
             modelBuilder.Entity("OnlineFoodOrderingSystem.Models.RestaurantAdmin", b =>
                 {
                     b.HasOne("OnlineFoodOrderingSystem.Models.Restaurant", "Restaurant")
-                        .WithMany()
+                        .WithMany("RestaurantAdmins")
                         .HasForeignKey("RestaurantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -242,7 +230,7 @@ namespace OnlineFoodOrderingSystem.Migrations
 
             modelBuilder.Entity("OnlineFoodOrderingSystem.Models.Restaurant", b =>
                 {
-                    b.Navigation("Users");
+                    b.Navigation("RestaurantAdmins");
                 });
 #pragma warning restore 612, 618
         }

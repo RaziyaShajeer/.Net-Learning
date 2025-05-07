@@ -14,7 +14,8 @@ namespace OnlineFoodOrderingSystem.Models
 		public Location Location { get; set; }
 		public byte[] RestaurantImage { get; set; }
 		public DateTime CeatedAt { get; set; }
-		public virtual ICollection<User> Users { get; set; }
+
+		public virtual ICollection<RestaurantAdmin> RestaurantAdmins { get; set; }
 		public Status Status { get; set; }
 
 	}
