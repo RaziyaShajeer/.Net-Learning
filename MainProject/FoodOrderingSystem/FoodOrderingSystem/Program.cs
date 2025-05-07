@@ -1,7 +1,11 @@
+using FoodOrderingSystem.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAutoMapper(typeof(AutomapperProfile).Assembly);
 
 var app = builder.Build();
 
@@ -22,6 +26,8 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Public}/{action=Index}/{id?}");
+
+
 
 app.Run();
