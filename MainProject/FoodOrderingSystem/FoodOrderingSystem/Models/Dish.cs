@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace OnlineFoodOrderingSystem.Models;
+namespace FoodOrderingSystem.Models;
 
 [Table("Dish")]
 public partial class Dish

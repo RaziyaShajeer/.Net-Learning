@@ -1,27 +1,14 @@
-<<<<<<< HEAD
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System.ComponentModel.DataAnnotations.Schema;
-=======
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
->>>>>>> 8ba5e07d4ff29023d9a44ea9198c6ec88a73629f
 
-namespace OnlineFoodOrderingSystem.Models;
+namespace FoodOrderingSystem.Models;
 
 [Table("RestaurantAdmin")]
 public partial class RestaurantAdmin
 {
-<<<<<<< HEAD
-	public class RestaurantAdmin : User
-	{
-		[ForeignKey("Restaurant")]
-		public Guid RestaurantId { get; set; }
-		public virtual Restaurant Restaurant { get; set; }
-	}
-=======
     [Key]
     public Guid RestaurantAdminId { get; set; }
 
@@ -30,5 +17,4 @@ public partial class RestaurantAdmin
     [ForeignKey("RestaurantId")]
     [InverseProperty("RestaurantAdmins")]
     public virtual RestaurantProfile Restaurant { get; set; } = null!;
->>>>>>> 8ba5e07d4ff29023d9a44ea9198c6ec88a73629f
 }

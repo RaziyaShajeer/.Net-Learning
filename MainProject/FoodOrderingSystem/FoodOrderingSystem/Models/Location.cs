@@ -4,21 +4,21 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace OnlineFoodOrderingSystem.Models;
+namespace FoodOrderingSystem.Models;
 
 [Table("Location")]
 public partial class Location
 {
     [Key]
-    public Guid LoactionId { get; set; }
+    public Guid LocationId { get; set; }
 
     [StringLength(10)]
+    [Unicode(false)]
     public string LocationName { get; set; } = null!;
 
     [InverseProperty("Location")]
-    public virtual ICollection<RestaurantProfile> RestaurantProfiles { get; set; } = new List<RestaurantProfile>();
+    public virtual ICollection<MyUser> MyUsers { get; set; } = new List<MyUser>();
 
     [InverseProperty("Location")]
-    public virtual ICollection<User> Users { get; set; } = new List<User>();
-        
+    public virtual ICollection<RestaurantProfile> RestaurantProfiles { get; set; } = new List<RestaurantProfile>();
 }
