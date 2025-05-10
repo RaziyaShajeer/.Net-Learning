@@ -1,0 +1,32 @@
+﻿
+
+@{
+    ViewData["Title"] = "Index";
+}
+<head>
+    <style>
+        background-image: url('/images/food.jpg'); /* NOT ~/images/... */
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+    </style>
+</head>
+<h1>Index</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="back" style="background-image: url('/images/food.jpg'); background-repeat: no-repeat; background-position: center;">
+        <img src="/images/food.jpg" alt="Food Image" />
+    </div>
+</div>
+
+<div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
