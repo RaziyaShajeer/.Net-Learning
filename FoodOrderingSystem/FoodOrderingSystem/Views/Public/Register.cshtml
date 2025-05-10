@@ -1,0 +1,101 @@
+﻿@model FoodOrderingSystem.DTOs.UserDTo
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+
+
+<head>
+    <style>
+        .reg{
+            max-width: 500px;
+            height: 600px;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-top:50px;
+        }
+
+        .btn {
+            background-color: #432119;
+            border: none
+        }
+
+            .btn:hover {
+                background-color: #6a3e1d;
+            }
+    </style>
+</head>
+
+<div class="row">
+    <div class="container reg" >
+        <h2 class="text-center mb-4">Register</h2>
+        <form asp-action="Register">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Lastname" class="control-label"></label>
+                    <input asp-for="Lastname" class="form-control" />
+                    <span asp-validation-for="Lastname" class="text-danger"></span>
+
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <!-- <div class=" col-md-6 mb-3">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required
+                        minlength="6">
+                </div> -->
+
+                <div class="col-md-12 mb-3">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="State" class="control-label"></label>
+                    <input asp-for="State" class="form-control" />
+                    <span asp-validation-for="State" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Phone" class="control-label"></label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn text-white w-75 ms-5 mt-3">Register</button>
+
+        </form>
+
+
+    </div>
+</div>
+
+    
+
+
+
+       
+   
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

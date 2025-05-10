@@ -63,7 +63,8 @@ namespace WebApplication13.Controllers
         [HttpPost]
         public IActionResult Login(string email)
         {
-            studentrepository.Login(email); 
+            studentrepository.Login(email);
+            HttpContext.Session.SetString("Email", email);
             return View();
         }
 }
