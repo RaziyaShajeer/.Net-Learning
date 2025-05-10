@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using FoodOrderingSystem.DTO;
+using FoodOrderingSystem.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodOrderingSystem.Models;
@@ -124,7 +124,7 @@ public partial class MyDbContext : DbContext
                 .HasConstraintName("FK_RestaurantAdmin_RestaurantProfile");
         });
 
-        modelBuilder.Entity<UserDTO>().HasNoKey();
+        modelBuilder.Entity<UserDTo>().HasNoKey();
 
         modelBuilder.Entity<RestaurantProfile>(entity =>
         {
@@ -142,5 +142,5 @@ public partial class MyDbContext : DbContext
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
-public DbSet<FoodOrderingSystem.DTO.UserDTO> UserDTO { get; set; } = default!;
+public DbSet<FoodOrderingSystem.DTOs.UserDTo> UserDTO { get; set; } = default!;
 }

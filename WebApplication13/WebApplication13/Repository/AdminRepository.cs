@@ -20,6 +20,11 @@ namespace WebApplication13.Repository
             throw new NotImplementedException();
         }
 
+		Student IStudentrepository.Login(string email)
+		{
+			throw new NotImplementedException();
+		}
+
 		Student IStudentrepository.UpdateStudent(Student student)
 		{
 			throw new NotImplementedException();
