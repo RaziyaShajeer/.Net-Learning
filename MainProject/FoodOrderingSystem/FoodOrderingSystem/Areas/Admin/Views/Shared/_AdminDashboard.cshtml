@@ -1,0 +1,85 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<head>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body, .container-fluid, .row {
+            margin: 0;
+            padding: 0;
+            box-sizing:border-box;
+        }
+
+        .sidebar {
+           
+            background-color: #212529;
+            min-height: 100vh;
+        }
+
+            .sidebar a {
+                color: #adb5bd;
+                text-decoration: none;
+                display: block;
+                padding: 12px 20px;
+                transition: background-color 0.3s ease;
+            }
+
+                .sidebar a:hover {
+                    background-color: #343a40;
+                    color: #fff;
+                }
+
+            .sidebar h4 {
+                color: #fff;
+                text-align: center;
+                padding-top: 20px;
+            }
+
+       
+    </style>
+</head>
+<body>
+
+   
+    <nav class="navbar navbar-dark bg-dark d-md-none">
+        <div class="container-fluid">
+            <a class="navbar-brand p-2" href="#"> Admin Panel</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 px-0">
+                <!-- Sidebar -->
+                <nav id="sidebarMenu" class="d-md-block bg-dark sidebar collapse w-100">
+                    <div class="position-sticky pt-3">
+                        <h4>Admin Panel</h4>
+                        <a asp-area="Admin" asp-controller="Admin" asp-action="Index">Dashboard</a>
+                        <a asp-area="Admin" asp-controller="Admin" asp-action="ViewUsers">View Users</a>
+                        <a asp-area="Admin" asp-controller="Admin" asp-action="AddLocation">Add Location</a>
+                        <a href="#">View Restaurant</a>
+                        <a href="#">View Delivery Agents</a>
+                        <a href="#">Add Delivery Agents</a>
+                        <a asp-area="Admin" asp-controller="Admin" asp-action="AddRestaurant">Add Restaurant</a>
+                        <a href="#">Add User</a>
+                        <a href="#">View Orders</a>
+                        <a href="#">Logout</a>
+                    </div>
+                </nav>
+            </div>
+
+            <div class="col-md-9 px-0"> 
+                <main role="main" class="pb-3"> 
+                    @RenderBody()
+                 </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript for collapse functionality -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

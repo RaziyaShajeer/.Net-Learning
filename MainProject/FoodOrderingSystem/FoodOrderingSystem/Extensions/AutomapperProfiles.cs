@@ -10,6 +10,9 @@ namespace FoodOrderingSystem.Extensions
         public AutomapperProfile()
         {
             CreateMap<UserDTO, MyUser>();
-        }
+            CreateMap<LocationDTO, Location>();
+            CreateMap<RestaurentProfileDTO, RestaurantProfile>();
+            CreateMap<DishDTO, Dish>();
+;        }
     }
 }

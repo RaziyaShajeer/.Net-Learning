@@ -125,17 +125,18 @@ public partial class MyDbContext : DbContext
         });
 
         modelBuilder.Entity<UserDTO>().HasNoKey();
+        modelBuilder.Entity<DishDTO>().HasNoKey();  
 
-        modelBuilder.Entity<RestaurantProfile>(entity =>
-        {
-            entity.HasKey(e => e.RestaurantId).HasName("PK__Restaura__87454C95236D507F");
+        //modelBuilder.Entity<RestaurantProfile>(entity =>
+        //{
+        //    entity.HasKey(e => e.RestaurantId).HasName("PK__Restaura__87454C95236D507F");
 
-            entity.Property(e => e.RestaurantId).ValueGeneratedNever();
+        //    entity.Property(e => e.RestaurantId).ValueGeneratedNever();
 
-            entity.HasOne(d => d.Location).WithMany(p => p.RestaurantProfiles)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_RestaurantProfile_Location");
-        });
+        //    entity.HasOne(d => d.Location).WithMany(p => p.RestaurantProfiles)
+        //        .OnDelete(DeleteBehavior.ClientSetNull)
+        //        .HasConstraintName("FK_RestaurantProfile_Location");
+        //});
 
         OnModelCreatingPartial(modelBuilder);
     }
@@ -143,4 +144,6 @@ public partial class MyDbContext : DbContext
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
 public DbSet<FoodOrderingSystem.DTO.UserDTO> UserDTO { get; set; } = default!;
+
+public DbSet<FoodOrderingSystem.DTO.DishDTO> DishDTO { get; set; } = default!;
 }

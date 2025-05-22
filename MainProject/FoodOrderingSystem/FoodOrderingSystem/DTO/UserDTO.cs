@@ -1,4 +1,6 @@
-﻿namespace FoodOrderingSystem.DTO
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace FoodOrderingSystem.DTO
 {
     public class UserDTO
     {
@@ -11,5 +13,8 @@
         public string Phone { get; set; }
         public string Address { get; set; }
         public string State { get; set; }
+        public Guid? LocationID { get; set; }
+        public IEnumerable<SelectListItem>Locations { get; set; }
+        
     }
 }

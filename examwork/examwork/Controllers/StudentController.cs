@@ -35,7 +35,7 @@ namespace examwork.Controllers
 
         [HttpGet]
 
-        public IActionResult GetDetails(int id) 
+        public IActionResult GetDetails(Guid id) 
         { 
 
             student std=_context.students.Where(e=>e.Id==id).FirstOrDefault();
@@ -44,7 +44,7 @@ namespace examwork.Controllers
         }
 
         [HttpGet]
-        public IActionResult Edit(int id)
+        public IActionResult Edit(Guid id)
         { 
             student std=_context.students.Where(e=>e.Id==id).FirstOrDefault();
             if (std != null) { 
@@ -63,7 +63,7 @@ namespace examwork.Controllers
         {
             student oldstd=_context.students.Where(e=>e.Id==newstd.Id).FirstOrDefault();
             oldstd.Name = newstd.Name;
-            oldstd.Description = newstd.Description;
+            oldstd.Role = newstd.Role;
             oldstd.Age = newstd.Age;
             _context.students.Update(oldstd);
             _context.SaveChanges();
@@ -72,7 +72,7 @@ namespace examwork.Controllers
 
         }
         [HttpGet]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(Guid id)
         { 
             student st=_context.students.Where(e=>e.Id == id).FirstOrDefault();
             if (st != null) { 

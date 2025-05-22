@@ -21,17 +21,46 @@
                         <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Restaurants</a></li>
                         <li class="nav-item"><a class="nav-link" href="#">Offers</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="Public" asp-controller="Public" asp-action="Login">Login</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container-fluid">
+    <div class="container-fluid  ">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
+
+    <div class="container-fluid">
+        <footer class="bg-dark text-light py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>CraveCart</h5>
+                        <p>Delivering your cravings right to your doorstep.</p>
+                    </div>
+                    <div class="col-md-3">
+                        <h6>Quick Links</h6>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-light text-decoration-none">Restaurants</a></li>
+                            <li><a href="#" class="text-light text-decoration-none">Offers</a></li>
+                            <li><a href="#" class="text-light text-decoration-none">Help</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h6>Contact Us</h6>
+                        <p>Email: support@foodiefast.com</p>
+                        <p>Phone: +91 98765 43210</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+
+    </div>
+
 
     @* <footer class="border-top footer text-muted"> *@
     @*     <div class="container"> *@
