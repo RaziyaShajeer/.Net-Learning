@@ -37,17 +37,17 @@ namespace FoodOrderingSystem.Areas.Public.Controllers
         {
             try
             {
-                var locationsFromDb = _context.Locations.ToList();
-                var userDTO = new UserDTO
-                {
-                    Locations = locationsFromDb.Select(l => new SelectListItem
-                    {
-                        Value = l.LocationId.ToString(),
-                        Text = l.LocationName
-                    }).ToList()
-                };
+                //var locationsFromDb = _context.Locations.ToList();
+                //var userDTO = new UserDTO
+                //{
+                //    Locations = locationsFromDb.Select(l => new SelectListItem
+                //    {
+                //        Value = l.LocationId.ToString(),
+                //        Text = l.LocationName
+                //    }).ToList()
+                //};
 
-                return View(userDTO);
+                return View();
             }
             catch (Exception ex)
             {

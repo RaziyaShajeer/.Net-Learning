@@ -13,11 +13,13 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
     public class AdminController : Controller
     {
         IMapper mapper;
-        MyDbContext _context = new MyDbContext();
+        MyDbContext _context;
 
-        public AdminController(IMapper _mapper)
+        public AdminController(IMapper _mapper,MyDbContext _Context)
         {
-            mapper = _mapper;
+            _context = _Context;
+
+			mapper = _mapper;
         }
 
         public IActionResult Index()
@@ -152,17 +154,10 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
         {
             try
             {
-                var locationsFromDb = _context.Locations.ToList();
-                //var userDTO = new UserDTO
-                //{
-                //    Locations = locationsFromDb.Select(l => new SelectListItem
-                //    {
-                //        Value = l.LocationId.ToString(),
-                //        Text = l.LocationName
-                //    }).ToList()
-                //};
+                
+               
 
-                return View(userDTO);
+                return View();
             }
             catch (Exception ex)
             {
@@ -187,27 +182,21 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
                     {
                         RestaurantId = restaurantId
                     };
-
+                    restaurantAdmin.RestaurantAdminId = restaurantadmin.UserId;
                     _context.RestaurantAdmins.Add(restaurantAdmin);
                     _context.SaveChanges();
 
                     HttpContext.Session.Remove("restaurantId");
 
                     // ✅ redirect to GET method
-                    return RedirectToAction("AddRestaurant");
+                    return RedirectToAction("Index");
                 }
                 else
                 {
                     TempData["Message"] = "Input data is not correct";
 
                     // Optional: if you want to return view with the same data
-                    var locationsFromDb = _context.Locations.ToList();
-                    restaurantadmin.Locations = locationsFromDb.Select(l => new SelectListItem
-                    {
-                        Value = l.LocationId.ToString(),
-                        Text = l.LocationName
-                    }).ToList();
-
+                 
                     return View(restaurantadmin);
                 }
             }
@@ -231,17 +220,12 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
                        Text = c.ToString()
                    }).ToList();
 
-                var restaurantList = _context.RestaurantProfiles
-                    .Select(r => new SelectListItem
-                    {
-                        Value = r.RestaurantId.ToString(),
-                        Text = r.RestaurantName
-                    }).ToList();
+              
 
                 DishDTO dishDTO = new DishDTO
                 {
                     CategoryList = categoryList,
-                    RestaurantList = restaurantList
+                    
                 };
 
 
@@ -284,8 +268,8 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
                             dish.DishImage = memoryStream.ToArray(); // Save as byte[]
                         }
                     }
-
-                    _context.Dishes.Add(dish);
+					dish.RestaurantId = Guid.Parse("8BDE61DE-8F43-40C0-A96A-18019E153E90");
+					_context.Dishes.Add(dish);
                     await _context.SaveChangesAsync();
 
                     TempData["Message"] = "Dish added successfully.";
@@ -296,20 +280,9 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
                     TempData["Message"] = "Please provide valid dish details.";
 
 
-                    dishDTO.CategoryList = Enum.GetValues(typeof(Category))
-                        .Cast<Category>()
-                        .Select(c => new SelectListItem
-                        {
-                            Value = ((int)c).ToString(),
-                            Text = c.ToString()
-                        }).ToList();
+                    
 
-                    dishDTO.RestaurantList = _context.RestaurantProfiles
-                        .Select(r => new SelectListItem
-                        {
-                            Value = r.RestaurantId.ToString(),
-                            Text = r.RestaurantName
-                        }).ToList();
+                    
 
                     return View(dishDTO);
                 }

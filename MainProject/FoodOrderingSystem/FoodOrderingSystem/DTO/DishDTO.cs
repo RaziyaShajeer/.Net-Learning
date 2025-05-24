@@ -11,19 +11,19 @@ namespace FoodOrderingSystem.DTO
 
         public string Description { get; set; } = null!;
         [NotMapped]
-        public IFormFile DishImageFile { get; set; }
+        public IFormFile? DishImageFile { get; set; }
 
         public Category Category { get; set; }
 
       
 
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
 
-        public Guid RestaurantId { get; set; }
+        public Guid? RestaurantId { get; set; }
 
         public IEnumerable<SelectListItem>? CategoryList { get; set; }
 
-        public IEnumerable<SelectListItem>? RestaurantList { get; set; }
+        
     }
 }
 
