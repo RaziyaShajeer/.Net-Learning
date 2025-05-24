@@ -10,7 +10,7 @@ namespace FoodOrderingSystem.Models;
 public partial class Location
 {
     [Key]
-    public Guid LocationId { get; set; }
+    public Guid LocationId { get; set; }= Guid.NewGuid();
 
     [StringLength(10)]
     [Unicode(false)]
@@ -19,6 +19,5 @@ public partial class Location
     [InverseProperty("Location")]
     public virtual ICollection<MyUser> MyUsers { get; set; } = new List<MyUser>();
 
-    [InverseProperty("Location")]
-    public virtual ICollection<RestaurantProfile> RestaurantProfiles { get; set; } = new List<RestaurantProfile>();
+    
 }

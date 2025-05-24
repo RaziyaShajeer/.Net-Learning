@@ -1,0 +1,89 @@
+﻿@using FoodOrderingSystem
+@using FoodOrderingSystem.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model FoodOrderingSystem.DTO.LocationDTO
+
+@{
+    ViewData["Title"] = "AddLocation";
+    Layout = "~/areas/Admin/Views/Shared/_AdminDashboard.cshtml";
+}
+
+<head>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f9;
+            
+        }
+
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    
+            <!-- Main Content -->
+            <main class="col-md-10  py-4">
+                <h2 class="mb-4 p-2">Dashboard Overview</h2>
+
+                <div class="row g-4">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card p-4 bg-primary text-white">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Users</h5>
+                                <p class="card-text fs-4">1,250</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card p-4 bg-success text-white">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Orders</h5>
+                                <p class="card-text fs-4">3,482</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="card p-4 bg-warning text-dark">
+                            <div class="card-body">
+                                <h5 class="card-title">Active Restaurants</h5>
+                                <p class="card-text fs-4">128</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-5" />
+
+                <h4>Quick Actions</h4>
+                <div class="row g-3">
+                    <div class="col-md-3 col-sm-6">
+                        <a href="#" class="btn btn-outline-primary w-100">Add New User</a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="#" class="btn btn-outline-success w-100">Add Restaurant</a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="#" class="btn btn-outline-dark w-100">Assign Delivery Agent</a>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <a href="#" class="btn btn-outline-danger w-100">Manage Orders</a>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+</body>
+</html>

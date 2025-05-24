@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using examwork.DTO;
 
 namespace examwork.Models
 {
@@ -10,8 +11,9 @@ namespace examwork.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-P7C5TMH;Initial Catalog=examdb;Integrated Security=True;Trust Server Certificate=True");
+                optionsBuilder.UseSqlServer("Data Source=DESKTOP-P7C5TMH;Initial Catalog=examdb2;Integrated Security=True;Trust Server Certificate=True");
             }
         }
+        public DbSet<examwork.DTO.UserDTO> UserDTO { get; set; } = default!;
     }
 }

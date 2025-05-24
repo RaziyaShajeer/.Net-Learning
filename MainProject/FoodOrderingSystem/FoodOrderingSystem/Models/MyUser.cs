@@ -32,7 +32,7 @@ public partial class MyUser
 
     [StringLength(20)]
     [Unicode(false)]
-    [Required(ErrorMessage = "Contactnumber is required.")]
+    //[Required(ErrorMessage = "Contactnumber is required.")]
 
     public string Phone { get; set; } = null!;
 
