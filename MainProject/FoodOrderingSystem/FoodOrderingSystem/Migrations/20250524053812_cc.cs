@@ -6,11 +6,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FoodOrderingSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class dd : Migration
+    public partial class cc : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "DishDTO",
+                columns: table => new
+                {
+                    DishName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    RestaurantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                });
+
             migrationBuilder.CreateTable(
                 name: "Location",
                 columns: table => new
@@ -24,6 +38,24 @@ namespace FoodOrderingSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RestaurantProfile",
+                columns: table => new
+                {
+                    RestaurantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RestaurantName = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
+                    RestauratType = table.Column<int>(type: "int", nullable: false),
+                    Phone = table.Column<string>(type: "varchar(10)", unicode: false, maxLength: 10, nullable: false),
+                    LocationName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RestaurantImages = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RestaurantProfile", x => x.RestaurantId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserDTO",
                 columns: table => new
                 {
@@ -34,7 +66,8 @@ namespace FoodOrderingSystem.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    State = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LocationID = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -64,67 +97,6 @@ namespace FoodOrderingSystem.Migrations
                         column: x => x.LocationId,
                         principalTable: "Location",
                         principalColumn: "LocationId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "RestaurantProfile",
-                columns: table => new
-                {
-                    RestaurantId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RestaurantName = table.Column<string>(type: "varchar(50)", unicode: false, maxLength: 50, nullable: false),
-                    RestauratType = table.Column<int>(type: "int", nullable: false),
-                    Phone = table.Column<string>(type: "varchar(10)", unicode: false, maxLength: 10, nullable: false),
-                    LocationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RestaurantImage = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__Restaura__87454C95236D507F", x => x.RestaurantId);
-                    table.ForeignKey(
-                        name: "FK_RestaurantProfile_Location",
-                        column: x => x.LocationId,
-                        principalTable: "Location",
-                        principalColumn: "LocationId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Cart",
-                columns: table => new
-                {
-                    CartId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
-                    TotalAmount = table.Column<decimal>(type: "decimal(18,0)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__Cart__51BCD7B78862E83E", x => x.CartId);
-                    table.ForeignKey(
-                        name: "FK_Cart_User",
-                        column: x => x.UserId,
-                        principalTable: "MyUser",
-                        principalColumn: "UserId");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MyOrder",
-                columns: table => new
-                {
-                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK__MyOrder__C3905BCFFB2199AF", x => x.OrderId);
-                    table.ForeignKey(
-                        name: "FK_Order_User",
-                        column: x => x.UserId,
-                        principalTable: "MyUser",
-                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateTable(
@@ -169,22 +141,41 @@ namespace FoodOrderingSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderItem",
+                name: "Cart",
                 columns: table => new
                 {
-                    OrderItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    orderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    TotalAmount = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
+                    CartId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime", nullable: false),
+                    TotalAmount = table.Column<decimal>(type: "decimal(18,0)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK__OrderIte__57ED06813226F653", x => x.OrderItemId);
+                    table.PrimaryKey("PK__Cart__51BCD7B78862E83E", x => x.CartId);
                     table.ForeignKey(
-                        name: "FK_OrderItem_Order",
-                        column: x => x.OrderItemId,
-                        principalTable: "MyOrder",
-                        principalColumn: "OrderId");
+                        name: "FK_Cart_User",
+                        column: x => x.UserId,
+                        principalTable: "MyUser",
+                        principalColumn: "UserId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MyOrder",
+                columns: table => new
+                {
+                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK__MyOrder__C3905BCFFB2199AF", x => x.OrderId);
+                    table.ForeignKey(
+                        name: "FK_Order_User",
+                        column: x => x.UserId,
+                        principalTable: "MyUser",
+                        principalColumn: "UserId");
                 });
 
             migrationBuilder.CreateTable(
@@ -206,6 +197,25 @@ namespace FoodOrderingSystem.Migrations
                         column: x => x.DishId,
                         principalTable: "Dish",
                         principalColumn: "DishId");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderItem",
+                columns: table => new
+                {
+                    OrderItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    orderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TotalAmount = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK__OrderIte__57ED06813226F653", x => x.OrderItemId);
+                    table.ForeignKey(
+                        name: "FK_OrderItem_Order",
+                        column: x => x.OrderItemId,
+                        principalTable: "MyOrder",
+                        principalColumn: "OrderId");
                 });
 
             migrationBuilder.CreateIndex(
@@ -237,11 +247,6 @@ namespace FoodOrderingSystem.Migrations
                 name: "IX_RestaurantAdmin_RestaurantId",
                 table: "RestaurantAdmin",
                 column: "RestaurantId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RestaurantProfile_LocationId",
-                table: "RestaurantProfile",
-                column: "LocationId");
         }
 
         /// <inheritdoc />
@@ -252,6 +257,9 @@ namespace FoodOrderingSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "Cartitem");
+
+            migrationBuilder.DropTable(
+                name: "DishDTO");
 
             migrationBuilder.DropTable(
                 name: "OrderItem");

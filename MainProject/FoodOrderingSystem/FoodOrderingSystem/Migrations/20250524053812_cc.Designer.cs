@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodOrderingSystem.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20250513152638_second")]
-    partial class second
+    [Migration("20250524053812_cc")]
+    partial class cc
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,28 @@ namespace FoodOrderingSystem.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("FoodOrderingSystem.DTO.DishDTO", b =>
+                {
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DishName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("RestaurantId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.ToTable("DishDTO");
+                });
 
             modelBuilder.Entity("FoodOrderingSystem.DTO.UserDTO", b =>
                 {
@@ -42,7 +64,7 @@ namespace FoodOrderingSystem.Migrations
                     b.Property<string>("Lastname")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("LocationID")
+                    b.Property<Guid?>("LocationID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Password")
@@ -304,8 +326,9 @@ namespace FoodOrderingSystem.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime");
 
-                    b.Property<Guid>("LocationId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("LocationName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -313,7 +336,7 @@ namespace FoodOrderingSystem.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(10)");
 
-                    b.Property<byte[]>("RestaurantImage")
+                    b.Property<byte[]>("RestaurantImages")
                         .HasColumnType("varbinary(max)");
 
                     b.Property<string>("RestaurantName")

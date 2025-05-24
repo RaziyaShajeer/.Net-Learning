@@ -1,10 +1,11 @@
 using FoodOrderingSystem.Extensions;
+using FoodOrderingSystem.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddDbContext<MyDbContext>();
 builder.Services.AddSession();
 
 builder.Services.AddAutoMapper(typeof(AutomapperProfile).Assembly);

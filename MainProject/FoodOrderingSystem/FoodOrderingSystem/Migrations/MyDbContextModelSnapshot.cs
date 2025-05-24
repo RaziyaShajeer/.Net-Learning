@@ -134,7 +134,7 @@ namespace FoodOrderingSystem.Migrations
                         .HasColumnType("varchar(max)");
 
 
-                    b.Property<byte[]>("DishImages")
+                    b.Property<byte[]>("DishImages");
 
 
                     b.Property<string>("DishName")
@@ -294,51 +294,7 @@ namespace FoodOrderingSystem.Migrations
                     b.ToTable("RestaurantAdmin");
                 });
 
-            modelBuilder.Entity("FoodOrderingSystem.Models.RestaurantProfile", b =>
-                {
-
-                        .ValueGeneratedOnAdd()
-
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime");
-    b.Property<string>("LocationName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(10)");
-
-     b.Property<byte[]>("RestaurantImages")
-
-        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("RestaurantName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<int>("RestauratType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasKey("RestaurantId");
-
-                
-
-                    b.HasIndex("LocationId");
-
-
-                    b.ToTable("RestaurantProfile");
-                });
-
+          
             modelBuilder.Entity("FoodOrderingSystem.Models.Cart", b =>
                 {
                     b.HasOne("FoodOrderingSystem.Models.MyUser", "User")
