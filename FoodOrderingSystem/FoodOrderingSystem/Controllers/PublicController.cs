@@ -16,7 +16,7 @@ namespace FoodOrderingSystem.Controllers
 
         public PublicController(IMapper _mapper)
         {
-           mapper = _mapper; 
+            mapper = _mapper;
         }
 
         public IActionResult Index()
@@ -27,19 +27,19 @@ namespace FoodOrderingSystem.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            var locations=_context.Locations.ToList();
-            
-			var userDTO = new UserDTo
-			{
-				Locations = locations.Select(l => new SelectListItem
-				{
-					Value = l.LocationId.ToString(),
-					Text = l.LocationName
-				}).ToList()
-			};
+            var locations = _context.Locations.ToList();
 
-			return View(userDTO);
-		}
+            var userDTO = new UserDTo
+            {
+                Locations = locations.Select(l => new SelectListItem
+                {
+                    Value = l.LocationId.ToString(),
+                    Text = l.LocationName
+                }).ToList()
+            };
+
+            return View(userDTO);
+        }
 
 
         [HttpPost]
@@ -47,7 +47,7 @@ namespace FoodOrderingSystem.Controllers
         {
             MyUser myUser = new MyUser();
 
-            myUser=mapper.Map<MyUser>(userDTO);
+            myUser = mapper.Map<MyUser>(userDTO);
             myUser.Role = Role.User;
             myUser.LocationId = new Guid("3f2504e0-4f89-11d3-9a0c-0305e82c3301");
 
@@ -65,7 +65,7 @@ namespace FoodOrderingSystem.Controllers
         [HttpPost]
         public IActionResult Login(string Email, string password)
         {
-            var User=_context.MyUsers.Where(e=>e.Email==Email && e.Password==password).ToList();
+            var User = _context.MyUsers.Where(e => e.Email == Email && e.Password == password).ToList();
             if (User.Any())
             {
 
@@ -77,5 +77,32 @@ namespace FoodOrderingSystem.Controllers
                 return View();
             }
         }
+        [HttpGet]
+        public IActionResult AddLocation()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult AddLocation(Location location)
+        {
+            if (_context.Locations.Where(e => e.LocationName == location.LocationName).Any())
+            {
+                {
+                    TempData["Message"] = "Already Exist";
+                    return View(new Location());
+                }
+            }
+            else
+            {
+                _context.Locations.Add(location);
+                _context.SaveChanges();
+
+                return View("AddLocation");
+            }
+
+
+        }
+
     }
 }
+
