@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using FoodOrderingSystem.DTO;
+using FoodOrderingSystem.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodOrderingSystem.Models;
@@ -91,7 +91,17 @@ public partial class MyDbContext : DbContext
                 .HasConstraintName("FK_Order_User");
         });
 
-       
+        modelBuilder.Entity<MyUser>(entity =>
+        {
+            entity.HasKey(e => e.UserId).HasName("PK__MyUser__1788CC4C3F1B5C0A");
+
+            entity.Property(e => e.UserId).ValueGeneratedNever();
+
+            entity.HasOne(d => d.Location).WithMany(p => p.MyUsers)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_MyUser_Location");
+        });
+
         modelBuilder.Entity<OrderItem>(entity =>
         {
             entity.HasKey(e => e.OrderItemId).HasName("PK__OrderIte__57ED06813226F653");
@@ -114,26 +124,23 @@ public partial class MyDbContext : DbContext
                 .HasConstraintName("FK_RestaurantAdmin_RestaurantProfile");
         });
 
-        modelBuilder.Entity<UserDTO>().HasNoKey();
-        modelBuilder.Entity<DishDTO>().HasNoKey();  
+        modelBuilder.Entity<UserDTo>().HasNoKey();
 
-        //modelBuilder.Entity<RestaurantProfile>(entity =>
-        //{
-        //    entity.HasKey(e => e.RestaurantId).HasName("PK__Restaura__87454C95236D507F");
+        modelBuilder.Entity<RestaurantProfile>(entity =>
+        {
+            entity.HasKey(e => e.RestaurantId).HasName("PK__Restaura__87454C95236D507F");
 
-        //    entity.Property(e => e.RestaurantId).ValueGeneratedNever();
+            entity.Property(e => e.RestaurantId).ValueGeneratedNever();
 
-        //    entity.HasOne(d => d.Location).WithMany(p => p.RestaurantProfiles)
-        //        .OnDelete(DeleteBehavior.ClientSetNull)
-        //        .HasConstraintName("FK_RestaurantProfile_Location");
-        //});
+            entity.HasOne(d => d.Location).WithMany(p => p.RestaurantProfiles)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_RestaurantProfile_Location");
+        });
 
         OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
-public DbSet<FoodOrderingSystem.DTO.UserDTO> UserDTO { get; set; } = default!;
-
-public DbSet<FoodOrderingSystem.DTO.DishDTO> DishDTO { get; set; } = default!;
+public DbSet<FoodOrderingSystem.DTOs.UserDTo> UserDTO { get; set; } = default!;
 }
