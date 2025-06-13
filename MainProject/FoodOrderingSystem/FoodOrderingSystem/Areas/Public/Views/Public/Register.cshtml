@@ -94,11 +94,9 @@
                     <span asp-validation-for="State" class="text-danger"></span>
                 </div>
                 <div class="col-md-12 mb-3">
-                    <label asp-for="LocationID" class="control-label"></label>
-                    <select asp-for="LocationID" asp-items="Model.Locations" class="form-control .form-select">
-                        <option value="">-- Select Location --</option>
-                    </select>
-                    <span asp-validation-for="LocationID" class="text-danger"></span>
+                    <label asp-for="LocationName" class="control-label"></label>
+                    <input asp-for="LocationName" class="form-control" />
+                    <span asp-validation-for="LocationName" class="text-danger"></span>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label asp-for="Phone" class="control-label"></label>

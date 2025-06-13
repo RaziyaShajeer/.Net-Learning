@@ -6,6 +6,7 @@ using FoodOrderingSystem.Migrations;
 using FoodOrderingSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodOrderingSystem.Areas.Admin.Controllers
 {
@@ -152,7 +153,7 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
         {
             try
             {
-                var locationsFromDb = _context.Locations.ToList();
+                //var locationsFromDb = _context.Locations.ToList();
                 //var userDTO = new UserDTO
                 //{
                 //    Locations = locationsFromDb.Select(l => new SelectListItem
@@ -162,7 +163,7 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
                 //    }).ToList()
                 //};
 
-                return View(userDTO);
+                return View();
             }
             catch (Exception ex)
             {
@@ -181,12 +182,13 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
 
                     _context.MyUsers.Add(myUser);
                     _context.SaveChanges();
-
+              
                     var restaurantId = Guid.Parse(HttpContext.Session.GetString("restaurantId"));
                     RestaurantAdmin restaurantAdmin = new RestaurantAdmin
                     {
                         RestaurantId = restaurantId
                     };
+                    restaurantAdmin.RestaurantAdminId=myUser.UserId;
 
                     _context.RestaurantAdmins.Add(restaurantAdmin);
                     _context.SaveChanges();
@@ -194,19 +196,19 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
                     HttpContext.Session.Remove("restaurantId");
 
                     // ✅ redirect to GET method
-                    return RedirectToAction("AddRestaurant");
+                    return RedirectToAction("Login","Public", new { area = "Public" });
                 }
                 else
                 {
-                    TempData["Message"] = "Input data is not correct";
+                    //TempData["Message"] = "Input data is not correct";
 
                     // Optional: if you want to return view with the same data
-                    var locationsFromDb = _context.Locations.ToList();
-                    restaurantadmin.Locations = locationsFromDb.Select(l => new SelectListItem
-                    {
-                        Value = l.LocationId.ToString(),
-                        Text = l.LocationName
-                    }).ToList();
+                    //var locationsFromDb = _context.Locations.ToList();
+                    //restaurantadmin.Locations = locationsFromDb.Select(l => new SelectListItem
+                    //{
+                    //    Value = l.LocationId.ToString(),
+                    //    Text = l.LocationName
+                    //}).ToList();
 
                     return View(restaurantadmin);
                 }
@@ -223,6 +225,19 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
         {
             try
             {
+                string role = HttpContext.Session.GetString("Role");
+                string restaurantIdStr = HttpContext.Session.GetString("restaurantId");
+
+                if (role != Role.HotelManager.ToString())
+                {
+                    return RedirectToAction("AccessDenied", "Home");
+                }
+
+                var restaurantId = Guid.Parse(restaurantIdStr);
+
+
+
+
                 var categoryList = Enum.GetValues(typeof(Category))
                    .Cast<Category>()
                    .Select(c => new SelectListItem
@@ -231,17 +246,17 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
                        Text = c.ToString()
                    }).ToList();
 
-                var restaurantList = _context.RestaurantProfiles
-                    .Select(r => new SelectListItem
-                    {
-                        Value = r.RestaurantId.ToString(),
-                        Text = r.RestaurantName
-                    }).ToList();
+                //var restaurantList = _context.RestaurantProfiles
+                //    .Select(r => new SelectListItem
+                //    {
+                //        Value = r.RestaurantId.ToString(),
+                //        Text = r.RestaurantName
+                //    }).ToList();
 
                 DishDTO dishDTO = new DishDTO
                 {
                     CategoryList = categoryList,
-                    RestaurantList = restaurantList
+                    //RestaurantList = restaurantList
                 };
 
 
@@ -284,7 +299,8 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
                             dish.DishImage = memoryStream.ToArray(); // Save as byte[]
                         }
                     }
-
+                    var restaurantId = HttpContext.Session.GetString("restaurantId");
+                    dish.RestaurantId = Guid.Parse(restaurantId);
                     _context.Dishes.Add(dish);
                     await _context.SaveChangesAsync();
 
@@ -296,21 +312,7 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
                     TempData["Message"] = "Please provide valid dish details.";
 
 
-                    dishDTO.CategoryList = Enum.GetValues(typeof(Category))
-                        .Cast<Category>()
-                        .Select(c => new SelectListItem
-                        {
-                            Value = ((int)c).ToString(),
-                            Text = c.ToString()
-                        }).ToList();
-
-                    dishDTO.RestaurantList = _context.RestaurantProfiles
-                        .Select(r => new SelectListItem
-                        {
-                            Value = r.RestaurantId.ToString(),
-                            Text = r.RestaurantName
-                        }).ToList();
-
+                   
                     return View(dishDTO);
                 }
             }
@@ -320,7 +322,22 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ViewDish() 
+        {
+            var dishes = await _context.Dishes.ToListAsync();
+            return View(dishes);
+        }
 
+        public FileResult GetImage(Guid id)
+        {
+            var dish = _context.Dishes.FirstOrDefault(d => d.DishId == id);
+            if (dish != null && dish.DishImage != null)
+            {
+                return File(dish.DishImage, "image/jpeg"); // adjust content type if needed
+            }
+            return null;
+        }
 
 
     }
