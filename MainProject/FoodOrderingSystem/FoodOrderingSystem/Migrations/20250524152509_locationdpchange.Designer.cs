@@ -4,6 +4,7 @@ using FoodOrderingSystem.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodOrderingSystem.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250524152509_locationdpchange")]
+    partial class locationdpchange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,6 +40,9 @@ namespace FoodOrderingSystem.Migrations
 
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("RestaurantId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.ToTable("DishDTO");
                 });
@@ -214,7 +220,6 @@ namespace FoodOrderingSystem.Migrations
             modelBuilder.Entity("FoodOrderingSystem.Models.MyUser", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Address")
@@ -244,6 +249,9 @@ namespace FoodOrderingSystem.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(50)");
 
+                    b.Property<Guid>("LocationId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("LocationName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -269,7 +277,10 @@ namespace FoodOrderingSystem.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(10)");
 
-                    b.HasKey("UserId");
+                    b.HasKey("UserId")
+                        .HasName("PK__MyUser__1788CC4C3F1B5C0A");
+
+                    b.HasIndex("LocationId");
 
                     b.ToTable("MyUser");
                 });
@@ -394,6 +405,17 @@ namespace FoodOrderingSystem.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("FoodOrderingSystem.Models.MyUser", b =>
+                {
+                    b.HasOne("FoodOrderingSystem.Models.Location", "Location")
+                        .WithMany("MyUsers")
+                        .HasForeignKey("LocationId")
+                        .IsRequired()
+                        .HasConstraintName("FK_MyUser_Location");
+
+                    b.Navigation("Location");
+                });
+
             modelBuilder.Entity("FoodOrderingSystem.Models.OrderItem", b =>
                 {
                     b.HasOne("FoodOrderingSystem.Models.MyOrder", "OrderItemNavigation")
@@ -419,6 +441,11 @@ namespace FoodOrderingSystem.Migrations
             modelBuilder.Entity("FoodOrderingSystem.Models.Dish", b =>
                 {
                     b.Navigation("Cartitems");
+                });
+
+            modelBuilder.Entity("FoodOrderingSystem.Models.Location", b =>
+                {
+                    b.Navigation("MyUsers");
                 });
 
             modelBuilder.Entity("FoodOrderingSystem.Models.MyOrder", b =>

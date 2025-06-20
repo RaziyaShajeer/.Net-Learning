@@ -19,11 +19,11 @@ namespace FoodOrderingSystem.DTO
 
         public decimal? Price { get; set; }
 
-        public Guid RestaurantId { get; set; }
+        
 
         public IEnumerable<SelectListItem>? CategoryList { get; set; }
 
-        public IEnumerable<SelectListItem>? RestaurantList { get; set; }
+        
     }
 }
 

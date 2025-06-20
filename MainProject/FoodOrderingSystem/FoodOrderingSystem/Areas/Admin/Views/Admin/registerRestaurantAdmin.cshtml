@@ -1,16 +1,23 @@
 ﻿@model FoodOrderingSystem.DTO.UserDTO
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 
 @{
     ViewData["Title"] = "registerRestaurantAdmin";
+    Layout = "~/areas/Admin/Views/Shared/_AdminDashboard.cshtml";
+
 }
 
-<h1>registerRestaurantAdmin</h1>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 
-<h4>UserDTO</h4>
+
+<h1 class="p-3">registerRestaurantAdmin</h1>
+
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="registerRestaurantAdmin">
+<div class="container p-3 ">
+    <div class="row d-flex justify-content-center">
+    <div class="col-md-5">
+        <form asp-action="registerRestaurantAdmin" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             
             <div class="form-group">
@@ -49,23 +56,18 @@
                 <span asp-validation-for="State" class="text-danger"></span>
             </div>
             <div class="col-md-12 mb-3">
-                <label asp-for="LocationID" class="control-label"></label>
-                <select asp-for="LocationID" asp-items="Model.Locations" class="form-control .form-select">
-                    <option value="">-- Select Location --</option>
-                </select>
-                <span asp-validation-for="LocationID" class="text-danger"></span>
+                <label asp-for="LocationName" class="control-label fw-bold"></label>
+                <input asp-for="LocationName" class="form-control" />
+                <span asp-validation-for="LocationName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
     </div>
+    </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+
+
