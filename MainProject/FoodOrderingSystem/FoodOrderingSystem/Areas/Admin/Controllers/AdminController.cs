@@ -6,6 +6,7 @@ using FoodOrderingSystem.Migrations;
 using FoodOrderingSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodOrderingSystem.Areas.Admin.Controllers
 {
@@ -13,13 +14,13 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
     public class AdminController : Controller
     {
         IMapper mapper;
-        MyDbContext _context;
+        MyDbContext _context = new MyDbContext();
+        private readonly IWebHostEnvironment _env;
 
-        public AdminController(IMapper _mapper,MyDbContext _Context)
+        public AdminController(IMapper _mapper, IWebHostEnvironment env)
         {
-            _context = _Context;
-
-			mapper = _mapper;
+            mapper = _mapper;
+            _env = env;
         }
 
         public IActionResult Index()
@@ -154,8 +155,15 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
         {
             try
             {
-                
-               
+                //var locationsFromDb = _context.Locations.ToList();
+                //var userDTO = new UserDTO
+                //{
+                //    Locations = locationsFromDb.Select(l => new SelectListItem
+                //    {
+                //        Value = l.LocationId.ToString(),
+                //        Text = l.LocationName
+                //    }).ToList()
+                //};
 
                 return View();
             }
@@ -176,27 +184,34 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
 
                     _context.MyUsers.Add(myUser);
                     _context.SaveChanges();
-
+              
                     var restaurantId = Guid.Parse(HttpContext.Session.GetString("restaurantId"));
                     RestaurantAdmin restaurantAdmin = new RestaurantAdmin
                     {
                         RestaurantId = restaurantId
                     };
-                    restaurantAdmin.RestaurantAdminId = restaurantadmin.UserId;
+                    restaurantAdmin.RestaurantAdminId=myUser.UserId;
+
                     _context.RestaurantAdmins.Add(restaurantAdmin);
                     _context.SaveChanges();
 
                     HttpContext.Session.Remove("restaurantId");
 
                     // ✅ redirect to GET method
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Login","Public", new { area = "Public" });
                 }
                 else
                 {
-                    TempData["Message"] = "Input data is not correct";
+                    //TempData["Message"] = "Input data is not correct";
 
                     // Optional: if you want to return view with the same data
-                 
+                    //var locationsFromDb = _context.Locations.ToList();
+                    //restaurantadmin.Locations = locationsFromDb.Select(l => new SelectListItem
+                    //{
+                    //    Value = l.LocationId.ToString(),
+                    //    Text = l.LocationName
+                    //}).ToList();
+
                     return View(restaurantadmin);
                 }
             }
@@ -212,6 +227,19 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
         {
             try
             {
+                string role = HttpContext.Session.GetString("Role");
+                string restaurantIdStr = HttpContext.Session.GetString("restaurantId");
+
+                if (role != Role.HotelManager.ToString())
+                {
+                    return RedirectToAction("AccessDenied", "Home");
+                }
+
+                var restaurantId = Guid.Parse(restaurantIdStr);
+
+
+
+
                 var categoryList = Enum.GetValues(typeof(Category))
                    .Cast<Category>()
                    .Select(c => new SelectListItem
@@ -220,12 +248,17 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
                        Text = c.ToString()
                    }).ToList();
 
-              
+                //var restaurantList = _context.RestaurantProfiles
+                //    .Select(r => new SelectListItem
+                //    {
+                //        Value = r.RestaurantId.ToString(),
+                //        Text = r.RestaurantName
+                //    }).ToList();
 
                 DishDTO dishDTO = new DishDTO
                 {
                     CategoryList = categoryList,
-                    
+                    //RestaurantList = restaurantList
                 };
 
 
@@ -248,28 +281,37 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
                 if (ModelState.IsValid)
                 {
                     Dish dish = new Dish();
+                    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(dishDTO.DishImageFile.FileName)}";
+                    var imagesPath = Path.Combine(_env.WebRootPath, "images");
+                    // Ensure directory exists
+                    if (!Directory.Exists(imagesPath))
+                        Directory.CreateDirectory(imagesPath);
+
+                    // Combine full file path
                     dish = mapper.Map<Dish>(dishDTO);
-                    dish.Availablity=DishAvailability.Available;
-
-                    if (dishDTO.DishImageFile != null && dishDTO.DishImageFile.Length > 0)
+                    var filePath = Path.Combine(imagesPath, fileName);
+                    using (var memoryStream = new MemoryStream())
                     {
-                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images");
-                        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(dishDTO.DishImageFile.FileName);
-                        var filePath = Path.Combine(uploadsFolder, fileName);
-
-                        using (var fileStream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await dishDTO.DishImageFile.CopyToAsync(fileStream);
-                        }
-
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            await dishDTO.DishImageFile.CopyToAsync(memoryStream);
-                            dish.DishImage = memoryStream.ToArray(); // Save as byte[]
-                        }
+                        await dishDTO.DishImageFile.CopyToAsync(memoryStream);
+                        dish.DishImage = memoryStream.ToArray(); // Save as byte[]
                     }
-					dish.RestaurantId = Guid.Parse("8BDE61DE-8F43-40C0-A96A-18019E153E90");
-					_context.Dishes.Add(dish);
+                    
+                    // Save the file
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await dishDTO.DishImageFile.CopyToAsync(stream);
+                    }
+                    
+                  
+                    dish.Availablity=DishAvailability.Available;
+                    dish.ImagePath = $"images/{fileName}";
+
+
+
+
+                    var restaurantId = HttpContext.Session.GetString("restaurantId");
+                    dish.RestaurantId = Guid.Parse(restaurantId);
+                    _context.Dishes.Add(dish);
                     await _context.SaveChangesAsync();
 
                     TempData["Message"] = "Dish added successfully.";
@@ -280,10 +322,7 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
                     TempData["Message"] = "Please provide valid dish details.";
 
 
-                    
-
-                    
-
+                   
                     return View(dishDTO);
                 }
             }
@@ -293,7 +332,27 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ViewDish() 
+        {
+            var dishes = await _context.Dishes.ToListAsync();
+            return View(dishes);
+        }
 
+        public FileResult GetImage(Guid id)
+        {
+            var dish = _context.Dishes.FirstOrDefault(d => d.DishId == id);
+            if (dish != null && dish.DishImage != null)
+            {
+                return File(dish.DishImage, "image/jpeg"); // adjust content type if needed
+            }
+
+            // If no image exists, return default "noimage.jpg"
+
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/noimage.jpg");
+            var imageBytes = System.IO.File.ReadAllBytes(path);
+            return File(imageBytes, "image/jpeg");
+        }
 
 
     }

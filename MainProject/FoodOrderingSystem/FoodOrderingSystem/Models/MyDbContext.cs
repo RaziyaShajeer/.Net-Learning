@@ -91,17 +91,7 @@ public partial class MyDbContext : DbContext
                 .HasConstraintName("FK_Order_User");
         });
 
-        modelBuilder.Entity<MyUser>(entity =>
-        {
-            entity.HasKey(e => e.UserId).HasName("PK__MyUser__1788CC4C3F1B5C0A");
-
-            entity.Property(e => e.UserId).ValueGeneratedNever();
-
-            entity.HasOne(d => d.Location).WithMany(p => p.MyUsers)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_MyUser_Location");
-        });
-
+       
         modelBuilder.Entity<OrderItem>(entity =>
         {
             entity.HasKey(e => e.OrderItemId).HasName("PK__OrderIte__57ED06813226F653");

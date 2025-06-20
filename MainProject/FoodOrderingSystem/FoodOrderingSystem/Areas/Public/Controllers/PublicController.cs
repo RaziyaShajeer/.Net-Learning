@@ -37,7 +37,7 @@ namespace FoodOrderingSystem.Areas.Public.Controllers
         {
             try
             {
-                //var locationsFromDb = _context.Locations.ToList();
+                var locationsFromDb = _context.Locations.ToList();
                 //var userDTO = new UserDTO
                 //{
                 //    Locations = locationsFromDb.Select(l => new SelectListItem
@@ -114,9 +114,29 @@ namespace FoodOrderingSystem.Areas.Public.Controllers
                     {
                         return RedirectToAction("Index", "Admin", new { area = "Admin" });
                     }
+                    else if(user.Role == Role.HotelManager) 
+                    {
+                        var restaurentAdmin = _context.RestaurantAdmins.Where(ra=>ra.RestaurantAdminId == user.UserId).FirstOrDefault();
+
+
+                        if (restaurentAdmin != null) 
+                        { 
+                            HttpContext.Session.SetString("restaurantId",restaurentAdmin.RestaurantId.ToString());
+                            HttpContext.Session.SetString("restaurantAdminId", restaurentAdmin.RestaurantAdminId.ToString());
+
+                            return RedirectToAction("AddDish", "Admin", new { area = "Admin" });
+
+                        }
+                        else
+                        {
+                            TempData["Message"] = "Restaurant admin not found.";
+                            return View();
+                        }
+                    }
                     else
                     {
-                        return View();
+                        // Redirect regular user to Public home or dashboard
+                        return RedirectToAction("Index", "Public");
                     }
                 }
                 else
@@ -127,7 +147,7 @@ namespace FoodOrderingSystem.Areas.Public.Controllers
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("Error", "Public", new {area="Public"});
             }
         }
     }

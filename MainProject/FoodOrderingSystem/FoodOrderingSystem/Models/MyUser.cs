@@ -54,7 +54,7 @@ public partial class MyUser
 
     public Role Role { get; set; }
 
-    public Guid? LocationId { get; set; }
+    public string LocationName { get; set; }
 
     [Column(TypeName = "datetime")]
     public DateTime CreatedAt { get; set; }= DateTime.Now;
@@ -62,9 +62,7 @@ public partial class MyUser
     [InverseProperty("User")]
     public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
 
-    [ForeignKey("LocationId")]
-    [InverseProperty("MyUsers")]
-    public virtual Location Location { get; set; } = null!;
+   
 
     [InverseProperty("User")]
     public virtual ICollection<MyOrder> MyOrders { get; set; } = new List<MyOrder>();

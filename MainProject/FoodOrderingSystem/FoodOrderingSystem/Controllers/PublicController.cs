@@ -35,7 +35,7 @@ namespace FoodOrderingSystem.Controllers
 
             myUser=mapper.Map<MyUser>(userDTO);
             myUser.Role = Role.User;
-            myUser.LocationId = new Guid("3f2504e0-4f89-11d3-9a0c-0305e82c3301");
+            //myUser.LocationName= new Guid("3f2504e0-4f89-11d3-9a0c-0305e82c3301");
 
             _context.MyUsers.Add(myUser);
             _context.SaveChanges();

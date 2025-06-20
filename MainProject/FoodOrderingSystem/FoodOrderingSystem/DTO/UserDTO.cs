@@ -13,7 +13,7 @@ namespace FoodOrderingSystem.DTO
         public string Phone { get; set; }
         public string Address { get; set; }
         public string State { get; set; }
-        public string LocationName { get; set; }
+        public String LocationName { get; set; }
         //public IEnumerable<SelectListItem>Locations { get; set; }
         
     }
