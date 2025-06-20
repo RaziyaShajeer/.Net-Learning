@@ -2,7 +2,7 @@
 using AutoMapper;
 using FoodOrderingSystem.DTO;
 using FoodOrderingSystem.Enums;
-using FoodOrderingSystem.Migrations;
+
 using FoodOrderingSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -45,8 +45,8 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
 
                     _context.Locations.Add(location);
                     _context.SaveChanges();
-
-                    return RedirectToAction("Register", "Public", new { area = "Public" });
+					return RedirectToAction("Index", "Admin", new { area = "Admin" });
+					
                 }
                 else
                 {
