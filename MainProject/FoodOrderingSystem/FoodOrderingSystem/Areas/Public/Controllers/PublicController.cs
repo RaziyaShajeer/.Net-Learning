@@ -147,7 +147,7 @@ namespace FoodOrderingSystem.Areas.Public.Controllers
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Error", "Home");
+                return RedirectToAction("Error", "Public", new {area="Public"});
             }
         }
     }

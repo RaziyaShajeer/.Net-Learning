@@ -21,8 +21,9 @@ public partial class Dish
     public string Description { get; set; } = null!;
 
     public byte[]? DishImage { get; set; }
-
+    public string ImagePath { get;set; }
     public Category Category { get; set; }
+ 
 
     public DishAvailability Availablity { get; set; }
 

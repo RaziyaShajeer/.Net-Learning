@@ -3,7 +3,8 @@
 }
 <style>
     .hero {
-        background: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092') no-repeat center center/cover;
+        /* background: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092') no-repeat center center/cover; */
+        background: url('@Url.Content("~/images/background.jpeg")') no-repeat center center/cover;
         height: 90vh;
         color: white;
         position: relative;
@@ -53,31 +54,32 @@
         <div class="row g-4">
             <div class="col-md-3 col-sm-6">
                 <div class="card category-card">
-                    <img src="" class="card-img-top" alt="Biryani">
+                    <img src="@Url.Content("~/images/seafood.jpg")" class="card-img-top" alt="seafood" style="height:180px;object-fit:cover;">
+
                     <div class="card-body text-center">
-                        <h5 class="card-title">Biryani</h5>
+                        <h5 class="card-title">Sea Food</h5>
                     </div>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6">
                 <div class="card category-card">
-                    <img src="" class="card-img-top" alt="Pizza">
+                    <img src="@Url.Content("~/images/chinees.jpg")" class="card-img-top" alt="chinees" style="height:180px;object-fit:cover;">
                     <div class="card-body text-center">
-                        <h5 class="card-title">Pizza</h5>
+                        <h5 class="card-title">Chinees</h5>
                     </div>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6">
                 <div class="card category-card">
-                    <img src="" class="card-img-top" alt="Burger">
+                    <img src="@Url.Content("~/images/salad.jpg")" class="card-img-top" alt="salad" style="height:180px;object-fit:cover;">
                     <div class="card-body text-center">
-                        <h5 class="card-title">Burger</h5>
+                        <h5 class="card-title">Salad</h5>
                     </div>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6">
                 <div class="card category-card">
-                    <img src="" class="card-img-top" alt="Dessert">
+                    <img src="@Url.Content("~/images/desert.jpg")" class="card-img-top" alt="desert" style="height:180px;object-fit:cover;">
                     <div class="card-body text-center">
                         <h5 class="card-title">Desserts</h5>
                     </div>
@@ -94,7 +96,7 @@
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="card">
-                    <img src="" class="card-img-top" alt="Restaurant 1">
+                    <img src="@Url.Content("~/images/beach resto.jpg")" class="card-img-top" alt="beachresto" style="height:200px;object-fit:cover;">
                     <div class="card-body">
                         <h5 class="card-title">Spicy Grill</h5>
                         <p class="card-text">⭐ 4.5 | North Indian, Biryani</p>
@@ -103,7 +105,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card">
-                    <img src="" class="card-img-top" alt="Restaurant 2">
+                    <img src="@Url.Content("~/images/retro.jpg")" class="card-img-top" alt="retro" style="height:200px;object-fit:cover;">
                     <div class="card-body">
                         <h5 class="card-title">Burger Mania</h5>
                         <p class="card-text">⭐ 4.2 | Burgers, Fast Food</p>
@@ -112,7 +114,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card">
-                    <img src="" class="card-img-top" alt="Restaurant 3">
+                    <img src="@Url.Content("~/images/savoury.jpg")" class="card-img-top" alt="desert" style="height:200px;object-fit:cover;">
                     <div class="card-body">
                         <h5 class="card-title">Sweet Treats</h5>
                         <p class="card-text">⭐ 4.8 | Cakes, Ice Creams</p>

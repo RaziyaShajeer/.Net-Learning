@@ -15,10 +15,12 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
     {
         IMapper mapper;
         MyDbContext _context = new MyDbContext();
+        private readonly IWebHostEnvironment _env;
 
-        public AdminController(IMapper _mapper)
+        public AdminController(IMapper _mapper, IWebHostEnvironment env)
         {
             mapper = _mapper;
+            _env = env;
         }
 
         public IActionResult Index()
@@ -279,26 +281,34 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
                 if (ModelState.IsValid)
                 {
                     Dish dish = new Dish();
+                    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(dishDTO.DishImageFile.FileName)}";
+                    var imagesPath = Path.Combine(_env.WebRootPath, "images");
+                    // Ensure directory exists
+                    if (!Directory.Exists(imagesPath))
+                        Directory.CreateDirectory(imagesPath);
+
+                    // Combine full file path
                     dish = mapper.Map<Dish>(dishDTO);
-                    dish.Availablity=DishAvailability.Available;
-
-                    if (dishDTO.DishImageFile != null && dishDTO.DishImageFile.Length > 0)
+                    var filePath = Path.Combine(imagesPath, fileName);
+                    using (var memoryStream = new MemoryStream())
                     {
-                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images");
-                        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(dishDTO.DishImageFile.FileName);
-                        var filePath = Path.Combine(uploadsFolder, fileName);
-
-                        using (var fileStream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await dishDTO.DishImageFile.CopyToAsync(fileStream);
-                        }
-
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            await dishDTO.DishImageFile.CopyToAsync(memoryStream);
-                            dish.DishImage = memoryStream.ToArray(); // Save as byte[]
-                        }
+                        await dishDTO.DishImageFile.CopyToAsync(memoryStream);
+                        dish.DishImage = memoryStream.ToArray(); // Save as byte[]
                     }
+                    
+                    // Save the file
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await dishDTO.DishImageFile.CopyToAsync(stream);
+                    }
+                    
+                  
+                    dish.Availablity=DishAvailability.Available;
+                    dish.ImagePath = $"images/{fileName}";
+
+
+
+
                     var restaurantId = HttpContext.Session.GetString("restaurantId");
                     dish.RestaurantId = Guid.Parse(restaurantId);
                     _context.Dishes.Add(dish);
@@ -336,7 +346,12 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
             {
                 return File(dish.DishImage, "image/jpeg"); // adjust content type if needed
             }
-            return null;
+
+            // If no image exists, return default "noimage.jpg"
+
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/noimage.jpg");
+            var imageBytes = System.IO.File.ReadAllBytes(path);
+            return File(imageBytes, "image/jpeg");
         }
 
 
