@@ -133,6 +133,10 @@ namespace FoodOrderingSystem.Areas.Public.Controllers
                             return View();
                         }
                     }
+                    else if(user.Role==Role.User)
+                    {
+						return RedirectToAction("ViewRestaurants", "User", new { area = "User" });
+					}
                     else
                     {
                         // Redirect regular user to Public home or dashboard

@@ -102,21 +102,23 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
                 restaurantprofile = mapper.Map<RestaurantProfile>(restaurantProfileDTO);
                 if (restaurantProfileDTO.RestaurantImage != null && restaurantProfileDTO.RestaurantImage.Length > 0)
                 {
-                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images");
-                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(restaurantProfileDTO.RestaurantImage.FileName);
-                    var filePath = Path.Combine(uploadsFolder, fileName);
-                        using (var fileStream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await restaurantProfileDTO.RestaurantImage.CopyToAsync(fileStream);
-                        }
-                        using (var memoryStream = new MemoryStream())
-                    {
-                        await restaurantProfileDTO.RestaurantImage.CopyToAsync(memoryStream);
-                        restaurantprofile.RestaurantImages = memoryStream.ToArray(); // Save as byte[]
-                    }
+						var fileName = $"{Guid.NewGuid()}{Path.GetExtension(restaurantProfileDTO.RestaurantImage.FileName)}";
+						var imagesPath = Path.Combine(_env.WebRootPath, "images");
+						var filePath = Path.Combine(imagesPath, fileName);
+						using (var memoryStream = new MemoryStream())
+						{
+							await restaurantProfileDTO.RestaurantImage.CopyToAsync(memoryStream);
+							restaurantprofile.RestaurantImages = memoryStream.ToArray(); // Save as byte[]
+						}
 
-                  
-                }
+						// Save the file
+						using (var stream = new FileStream(filePath, FileMode.Create))
+						{
+							await restaurantProfileDTO.RestaurantImage.CopyToAsync(stream);
+						}
+						restaurantprofile.ImagePath = $"images/{fileName}";
+
+					}
                 restaurantprofile.Status=RestaurantStatus.Active;
                     var exist = _context.RestaurantProfiles.Where(e => e.RestaurantName == restaurantprofile.RestaurantName).FirstOrDefault();
                     if(exist!=null)

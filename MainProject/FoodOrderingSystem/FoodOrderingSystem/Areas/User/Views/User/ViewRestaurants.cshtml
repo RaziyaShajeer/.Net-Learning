@@ -1,0 +1,107 @@
+﻿@model IEnumerable<FoodOrderingSystem.Models.RestaurantProfile>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "View Restaurants";
+    Layout = "~/Areas/Admin/Views/Shared/_HotelMngrDashboard.cshtml";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
+<style>
+    .restaurant-card {
+        border: none;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+        .restaurant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 28px rgba(0, 0, 0, 0.15);
+        }
+
+    .restaurant-img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .restaurant-body {
+        padding: 1rem;
+    }
+
+    .restaurant-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+    }
+
+    .restaurant-type,
+    .restaurant-location,
+    .restaurant-phone,
+    .restaurant-status {
+        font-size: 0.95rem;
+        color: #555;
+    }
+
+    .dish-img {
+        width: 100%;
+        height: 240px;
+        object-fit: cover;
+    }
+    .card-footer {
+        background-color: #f8f9fa;
+        padding: 0.75rem 1rem;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+
+    .top-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+</style>
+
+<div class="container mt-4">
+    <div class="top-actions">
+        <h2 class="mb-0">🍴 Restaurants</h2>
+        <a asp-action="Create" class="btn btn-primary rounded-pill">
+            <i class="bi bi-plus-circle me-1"></i> Add New Restaurant
+        </a>
+    </div>
+
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card restaurant-card">
+                    <img src="@Url.Content("~/" + item.ImagePath)" alt="@item.RestaurantImages" class="dish-img"  />
+                    <div class="restaurant-body">
+                        <div class="restaurant-title">@item.RestaurantName</div>
+                        <div class="restaurant-type"><i class="bi bi-tags"></i> @item.RestauratType</div>
+                        <div class="restaurant-location"><i class="bi bi-geo-alt"></i> @item.LocationName</div>
+                        <div class="restaurant-phone"><i class="bi bi-telephone"></i> @item.Phone</div>
+                        <div class="restaurant-status"><i class="bi bi-check-circle"></i> @item.Status</div>
+                        <div class="restaurant-status text-muted"><small>Created on: @item.CreatedAt.ToShortDateString()</small></div>
+                    </div>
+                    <div class="card-footer">
+                        <a asp-action="Edit" asp-route-id="@item.RestaurantId" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-pencil-square"></i> Edit
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.RestaurantId" class="btn btn-outline-info btn-sm">
+                            <i class="bi bi-info-circle"></i> Details
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.RestaurantId" class="btn btn-outline-danger btn-sm">
+                            <i class="bi bi-trash"></i> Delete
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

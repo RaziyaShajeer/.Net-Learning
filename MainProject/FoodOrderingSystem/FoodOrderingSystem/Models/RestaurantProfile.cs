@@ -25,8 +25,8 @@ public partial class RestaurantProfile
     [StringLength(10)]
     [Unicode(false)]
     public string Phone { get; set; } = null!;
-
-    public string LocationName { get; set; }
+	public string ImagePath { get; set; }
+	public string LocationName { get; set; }
 
     public byte[]? RestaurantImages { get; set; }
 
