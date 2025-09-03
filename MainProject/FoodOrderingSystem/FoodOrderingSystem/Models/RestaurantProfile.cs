@@ -28,7 +28,7 @@ public partial class RestaurantProfile
 
     public string LocationName { get; set; }
 
-    public byte[]? RestaurantImages { get; set; }
+    public string RestaurantImagesPath { get; set; }
 
     public RestaurantStatus Status { get; set; }
 

@@ -1,73 +1,95 @@
 ﻿@model FoodOrderingSystem.DTO.UserDTO
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
-
 @{
-    ViewData["Title"] = "registerRestaurantAdmin";
+    ViewData["Title"] = "Register Restaurant Admin";
     Layout = "~/areas/Admin/Views/Shared/_AdminDashboard.cshtml";
-
 }
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
 
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-header bg-primary text-white text-center rounded-top-4">
+                    <h3 class="mb-0"><i class="bi bi-person-plus-fill"></i> Register Restaurant Admin</h3>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-action="registerRestaurantAdmin" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-<h1 class="p-3">registerRestaurantAdmin</h1>
+                        <div class="mb-3">
+                            <label asp-for="FirstName" class="form-label fw-semibold"></label>
+                            <input asp-for="FirstName" class="form-control rounded-pill" placeholder="Enter first name" />
+                            <span asp-validation-for="FirstName" class="text-danger small"></span>
+                        </div>
 
-<hr />
-<div class="container p-3 ">
-    <div class="row d-flex justify-content-center">
-    <div class="col-md-5">
-        <form asp-action="registerRestaurantAdmin" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            
-            <div class="form-group">
-                <label asp-for="FirstName" class="control-label"></label>
-                <input asp-for="FirstName" class="form-control" />
-                <span asp-validation-for="FirstName" class="text-danger"></span>
+                        <div class="mb-3">
+                            <label asp-for="Lastname" class="form-label fw-semibold"></label>
+                            <input asp-for="Lastname" class="form-control rounded-pill" placeholder="Enter last name" />
+                            <span asp-validation-for="Lastname" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text rounded-start-pill"><i class="bi bi-envelope-fill"></i></span>
+                                <input asp-for="Email" class="form-control rounded-end-pill" placeholder="Enter email" />
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text rounded-start-pill"><i class="bi bi-lock-fill"></i></span>
+                                <input asp-for="Password" type="password" class="form-control rounded-end-pill" placeholder="Enter password" />
+                            </div>
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Phone" class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <span class="input-group-text rounded-start-pill"><i class="bi bi-telephone-fill"></i></span>
+                                <input asp-for="Phone" class="form-control rounded-end-pill" placeholder="Enter phone number" />
+                            </div>
+                            <span asp-validation-for="Phone" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Address" class="form-label fw-semibold"></label>
+                            <textarea asp-for="Address" class="form-control rounded-3" rows="2" placeholder="Enter address"></textarea>
+                            <span asp-validation-for="Address" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="State" class="form-label fw-semibold"></label>
+                            <input asp-for="State" class="form-control rounded-pill" placeholder="Enter state" />
+                            <span asp-validation-for="State" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="LocationName" class="form-label fw-semibold"></label>
+                            <input asp-for="LocationName" class="form-control rounded-pill" placeholder="Enter location name" />
+                            <span asp-validation-for="LocationName" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-success btn-lg rounded-pill shadow-sm">
+                                <i class="bi bi-check-circle-fill"></i> Create Account
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center bg-light rounded-bottom-4">
+                    <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4">
+                        <i class="bi bi-arrow-left"></i> Back to List
+                    </a>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Lastname" class="control-label"></label>
-                <input asp-for="Lastname" class="form-control" />
-                <span asp-validation-for="Lastname" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="State" class="control-label"></label>
-                <input asp-for="State" class="form-control" />
-                <span asp-validation-for="State" class="text-danger"></span>
-            </div>
-            <div class="col-md-12 mb-3">
-                <label asp-for="LocationName" class="control-label fw-bold"></label>
-                <input asp-for="LocationName" class="form-control" />
-                <span asp-validation-for="LocationName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+        </div>
     </div>
 </div>
-
-
-
-

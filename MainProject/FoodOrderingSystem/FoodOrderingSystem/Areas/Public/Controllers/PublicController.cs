@@ -5,13 +5,14 @@ using FoodOrderingSystem.Enums;
 using FoodOrderingSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodOrderingSystem.Areas.Public.Controllers
 {
     [Area("Public")]
     public class PublicController : Controller
     {
-         
+
         IMapper mapper;
         MyDbContext _context = new MyDbContext();
 
@@ -19,12 +20,33 @@ namespace FoodOrderingSystem.Areas.Public.Controllers
         {
             mapper = _mapper;
         }
+		[HttpPost]
+		public async Task<IActionResult> searchRestaurant(string value)
+		{
+			if (string.IsNullOrWhiteSpace(value))
+			{
+				// Instead of BadRequest, redirect back with a message
+				TempData["Message"] = "Search value cannot be empty";
+				return RedirectToAction("Index");
+			}
 
-        public IActionResult Index()
+			var restaurants = await _context.RestaurantProfiles
+				.Where(e => e.RestaurantName.Contains(value))
+				.ToListAsync();
+
+			// Send results to a view
+			return View("~/Areas/Public/Views/Public/SearchResults.cshtml", restaurants);
+		}
+		public async Task<IActionResult> Index()
         {
             try
             {
-                return View("~/Areas/Public/Views/Public/Index.cshtml");
+				List<RestaurantProfile> restaurants = await _context.RestaurantProfiles
+	 .Take(3)
+	 .ToListAsync();
+				
+
+				return View("~/Areas/Public/Views/Public/Index.cshtml", restaurants);
             }
             catch (Exception ex)
             {
@@ -37,7 +59,7 @@ namespace FoodOrderingSystem.Areas.Public.Controllers
         {
             try
             {
-                var locationsFromDb = _context.Locations.ToList();
+                //var locationsFromDb = _context.Locations.ToList();
                 //var userDTO = new UserDTO
                 //{
                 //    Locations = locationsFromDb.Select(l => new SelectListItem
@@ -60,7 +82,7 @@ namespace FoodOrderingSystem.Areas.Public.Controllers
         {
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
                     MyUser myUser = new MyUser();
 
@@ -77,13 +99,15 @@ namespace FoodOrderingSystem.Areas.Public.Controllers
                 {
                     TempData["Messgae"] = "Input data is not correct";
                     return View(userDTO);
-;                }
-               
+                    ;
+                }
+
             }
-            catch (Exception ex) {
-                return RedirectToAction("Error","Home");
+            catch (Exception ex)
+            {
+                return RedirectToAction("Error", "Home");
             }
-           
+
         }
 
         [HttpGet]
@@ -114,14 +138,14 @@ namespace FoodOrderingSystem.Areas.Public.Controllers
                     {
                         return RedirectToAction("Index", "Admin", new { area = "Admin" });
                     }
-                    else if(user.Role == Role.HotelManager) 
+                    else if (user.Role == Role.HotelManager)
                     {
-                        var restaurentAdmin = _context.RestaurantAdmins.Where(ra=>ra.RestaurantAdminId == user.UserId).FirstOrDefault();
+                        var restaurentAdmin = _context.RestaurantAdmins.Where(ra => ra.RestaurantAdminId == user.UserId).FirstOrDefault();
 
 
-                        if (restaurentAdmin != null) 
-                        { 
-                            HttpContext.Session.SetString("restaurantId",restaurentAdmin.RestaurantId.ToString());
+                        if (restaurentAdmin != null)
+                        {
+                            HttpContext.Session.SetString("restaurantId", restaurentAdmin.RestaurantId.ToString());
                             HttpContext.Session.SetString("restaurantAdminId", restaurentAdmin.RestaurantAdminId.ToString());
 
                             return RedirectToAction("AddDish", "Admin", new { area = "Admin" });
@@ -147,11 +171,20 @@ namespace FoodOrderingSystem.Areas.Public.Controllers
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Error", "Public", new {area="Public"});
+                return RedirectToAction("Error", "Public", new { area = "Public" });
             }
+        }
+        [HttpGet]
+        public async Task<IActionResult> getAllRestaurants()
+        {
+            List<RestaurantProfile> restaurants = await _context.RestaurantProfiles.ToListAsync();
+            List<RestaurentProfileDTO> restaurentProfiles =
+    mapper.Map<List<RestaurentProfileDTO>>(restaurants);
+            return View(restaurentProfiles);
         }
     }
 }
+
 
     
 

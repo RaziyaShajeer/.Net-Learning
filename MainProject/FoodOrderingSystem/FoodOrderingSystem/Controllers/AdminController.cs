@@ -34,7 +34,8 @@ namespace FoodOrderingSystem.Controllers
             _context.SaveChanges();
             return RedirectToAction("Register","Public");
         
-        }
 
-    }
+        }
+		
+	}
 }

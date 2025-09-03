@@ -13,6 +13,7 @@ namespace FoodOrderingSystem.Extensions
             CreateMap<LocationDTO, Location>();
             CreateMap<RestaurentProfileDTO, RestaurantProfile>();
             CreateMap<DishDTO, Dish>();
+            CreateMap<CategoryDTO, Category>();
 ;        }
     }
 }

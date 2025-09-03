@@ -2,7 +2,7 @@
 using AutoMapper;
 using FoodOrderingSystem.DTO;
 using FoodOrderingSystem.Enums;
-using FoodOrderingSystem.Migrations;
+//using FoodOrderingSystem.Migrations;
 using FoodOrderingSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -97,28 +97,31 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
             {
                 if (ModelState.IsValid)
                 {
-            
-                RestaurantProfile restaurantprofile = new RestaurantProfile();
-                restaurantprofile = mapper.Map<RestaurantProfile>(restaurantProfileDTO);
-                if (restaurantProfileDTO.RestaurantImage != null && restaurantProfileDTO.RestaurantImage.Length > 0)
-                {
-                    var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images");
-                    var fileName = Guid.NewGuid().ToString() + Path.GetExtension(restaurantProfileDTO.RestaurantImage.FileName);
-                    var filePath = Path.Combine(uploadsFolder, fileName);
-                        using (var fileStream = new FileStream(filePath, FileMode.Create))
-                        {
-                            await restaurantProfileDTO.RestaurantImage.CopyToAsync(fileStream);
-                        }
-                        using (var memoryStream = new MemoryStream())
-                    {
-                        await restaurantProfileDTO.RestaurantImage.CopyToAsync(memoryStream);
-                        restaurantprofile.RestaurantImages = memoryStream.ToArray(); // Save as byte[]
-                    }
+				
+					
+						
+						
 
-                  
-                }
+					RestaurantProfile restaurantprofile = new RestaurantProfile();
+
+                restaurantprofile = mapper.Map<RestaurantProfile>(restaurantProfileDTO);
+					var fileName = $"{Guid.NewGuid()}{Path.GetExtension(restaurantProfileDTO.RestaurantImage.FileName)}";
+					var imagesPath = Path.Combine(_env.WebRootPath, "images");
+					if (!Directory.Exists(imagesPath))
+						Directory.CreateDirectory(imagesPath);
+					var filePath = Path.Combine(imagesPath, fileName);
+					restaurantprofile = mapper.Map<RestaurantProfile>(restaurantProfileDTO);
+                    //save the file
+					using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await restaurantProfileDTO.RestaurantImage.CopyToAsync(stream);
+
+                    }
+                 
                 restaurantprofile.Status=RestaurantStatus.Active;
-                    var exist = _context.RestaurantProfiles.Where(e => e.RestaurantName == restaurantprofile.RestaurantName).FirstOrDefault();
+                    restaurantprofile.RestaurantImagesPath = $"images/{fileName}";
+
+					var exist = _context.RestaurantProfiles.Where(e => e.RestaurantName == restaurantprofile.RestaurantName).FirstOrDefault();
                     if(exist!=null)
                     {
                         TempData["Message"] = "Already exist Name.";
@@ -148,9 +151,34 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
                 return RedirectToAction("registerRestaurantAdmin");
             }
         }
+		[HttpGet]
+		public IActionResult AddCategory()
+		{
+			return View();
+		}
+		[HttpPost]
+		public IActionResult AddCategory(CategoryDTO categoryDTO)
+		{
+			Models.Category category = new Models.Category();
+			var fileName = $"{Guid.NewGuid()}{Path.GetExtension(categoryDTO.CategoryImage.FileName)}";
+			var imagesPath = Path.Combine(_env.WebRootPath, "images");
+			if (!Directory.Exists(imagesPath))
+				Directory.CreateDirectory(imagesPath);
+			var filePath = Path.Combine(imagesPath, fileName);
+			category = mapper.Map<Models.Category>(categoryDTO);
+			using (var stream = new FileStream(filePath, FileMode.Create))
+			{
+				 categoryDTO.CategoryImage.CopyToAsync(stream);
 
+			}
+            category.CategoryImage = $"images/{fileName}"; 
+			_context.Category.Add(category);
+			_context.SaveChanges();
+			return RedirectToAction("Register", "Public");
 
-        [HttpGet]
+		}
+
+		[HttpGet]
         public IActionResult registerRestaurantAdmin()
         {
             try
@@ -240,8 +268,8 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
 
 
 
-                var categoryList = Enum.GetValues(typeof(Category))
-                   .Cast<Category>()
+                var categoryList = Enum.GetValues(typeof(Enums.Category))
+                   .Cast<Enums.Category>()
                    .Select(c => new SelectListItem
                    {
                        Value = ((int)c).ToString(),
