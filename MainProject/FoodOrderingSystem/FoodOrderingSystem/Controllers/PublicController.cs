@@ -35,11 +35,11 @@ namespace FoodOrderingSystem.Controllers
 
             myUser=mapper.Map<MyUser>(userDTO);
             myUser.Role = Role.User;
-            myUser.LocationId = new Guid("3f2504e0-4f89-11d3-9a0c-0305e82c3301");
+            //myUser.LocationName= new Guid("3f2504e0-4f89-11d3-9a0c-0305e82c3301");
 
             _context.MyUsers.Add(myUser);
             _context.SaveChanges();
-            return View();
+            return RedirectToAction("Login");
         }
 
         [HttpGet]
@@ -48,12 +48,28 @@ namespace FoodOrderingSystem.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public IActionResult Login(string Email,string password)
-        //{
-        //    _context.MyUsers.
-        //    _context.SaveChanges();
-        //    return View();
-        //}
+        [HttpPost]
+        public IActionResult Login(string Email, string password)
+        {
+           var user= _context.MyUsers.Where(u=>u.Email == Email && u.Password == password ).FirstOrDefault();
+
+            if (user != null) {
+                HttpContext.Session.SetString("UserId", user.UserId.ToString());
+                HttpContext.Session.SetString("Role",user.Role.ToString());
+                if (user.Role == Role.Admin) {
+                    return RedirectToAction("AddCategory");
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                ViewData["Message"] = "Invalid login";
+                return View();
+            }
+               
+        }
     }
 }
