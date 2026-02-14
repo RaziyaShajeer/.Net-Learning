@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FoodOrderingSystem.DTO;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Bcpg.OpenPgp;
 
 namespace FoodOrderingSystem.Models;
 
@@ -33,10 +34,13 @@ public partial class MyDbContext : DbContext
     public virtual DbSet<RestaurantAdmin> RestaurantAdmins { get; set; }
 
     public virtual DbSet<RestaurantProfile> RestaurantProfiles { get; set; }
+    public virtual DbSet<Category> Category { get; set; }   
+    public virtual DbSet<Logins> Logins { get; set; }   
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-PBRNQVI;Initial Catalog=FoodOrdering;Integrated Security=True;Trust Server Certificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-PBRNQVI;Initial Catalog=Online_Food_Ordering;Integrated Security=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -73,12 +77,7 @@ public partial class MyDbContext : DbContext
                 .HasConstraintName("FK_Dish_RestaurantProfile");
         });
 
-        modelBuilder.Entity<Location>(entity =>
-        {
-            entity.HasKey(e => e.LocationId).HasName("PK__Location__E7FEA4975324939F");
-
-            entity.Property(e => e.LocationId).ValueGeneratedNever();
-        });
+       
 
         modelBuilder.Entity<MyOrder>(entity =>
         {
@@ -132,9 +131,7 @@ public partial class MyDbContext : DbContext
 
             entity.Property(e => e.RestaurantId).ValueGeneratedNever();
 
-            entity.HasOne(d => d.Location).WithMany(p => p.RestaurantProfiles)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_RestaurantProfile_Location");
+            
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -1,0 +1,126 @@
+﻿@model FoodOrderingSystem.DTO.DishListViewModel
+@{
+    if (Context.Session.GetString("Role") == "HotelManager")
+    {
+        Layout = "/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+}
+
+
+<!-- Add Button Top-Right -->
+<div class="text-end mb-4 mt-4">
+    <a href="@Url.Action("AddDish","Admin", new { area = "Admin" })" class="btn btn-success btn-lg shadow-sm">
+        Add Dish
+    </a>
+</div>
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-md-4 ms-auto">
+            <select class="form-select form-select-lg shadow-sm"
+                    onchange="location.href='?restaurantId=' + this.value">
+                <option value="">-- Select Restaurant --</option>
+
+                @foreach (var restaurant in Model.Restaurants)
+                {
+                    <option value="@restaurant.RestaurantId">
+                        @restaurant.RestaurantName
+                    </option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        @foreach (var dish in Model.DishList)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card h-100 shadow-lg rounded-4 overflow-hidden hover-scale dish-card"
+                     data-url="@Url.Action(
+                         "ViewItem",
+                         "User",
+                         new { area = "User", itemId = dish.DishId }
+                     )">
+                    <div class="position-relative">
+                        <img src="@Url.Content("~/" + dish.DishImagePath)"
+                             alt="@dish.DishName"
+                             class="card-img-top rounded-circle mx-auto mt-3 shadow"
+                             style="width:150px; height:150px; object-fit:cover; display:block;" />
+                    </div>
+                    <div class="card-body text-center d-flex flex-column">
+                        <h5 class="card-title fw-bold ">@dish.RestaurantName</h5>
+                        <h5 class="card-title fw-bold ">@dish.DishName</h5>
+                        <p class="card-title fw-bold ">@dish.CategoryName</p>
+                        <p class="card-title fw-bold ">@dish.Availablity</p>
+                        <p class="card-title fw-bold ">@dish.Price</p>
+                        <div class="mt-auto d-flex justify-content-center gap-2">
+                            @if (Context.Session.GetString("Role") == "HotelManager")
+                            {
+                                <a href="@Url.Action("EditDish", "Admin", new { area = "Admin", id = dish.DishId })"
+                                   class="btn btn-sm btn-outline-warning">
+                                    Edit
+                                </a>
+
+                                <a href="@Url.Action("DeleteDish", "Admin", new { area = "Admin", id = dish.DishId })"
+                                   class="btn btn-sm btn-outline-danger">
+                                    Delete
+                                </a>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    /* Hover scale effect */
+    .hover-scale:hover {
+        transform: translateY(-5px) scale(1.05);
+        transition: all 0.3s ease-in-out;
+    }
+
+        .hover-scale:hover .card-img-top {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+    /* Smooth card transition */
+    .card {
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    /* Buttons hover */
+    .btn-outline-warning:hover {
+        background-color: #ffc107;
+        color: #fff;
+    }
+
+    .btn-outline-danger:hover {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .btn-success:hover {
+        background-color: #28a745;
+        color: #fff;
+    }
+</style>
+<script>
+    document.querySelectorAll('.dish-card').forEach(card => {
+        card.addEventListener('click', function () {
+            window.location.href = this.dataset.url;
+        });
+    });
+
+    // Stop button clicks from triggering card click
+    document.querySelectorAll('.dish-card a').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
+    });
+</script>

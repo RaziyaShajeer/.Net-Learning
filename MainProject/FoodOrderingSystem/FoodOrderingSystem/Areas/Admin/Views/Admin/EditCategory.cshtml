@@ -1,0 +1,103 @@
+﻿@model FoodOrderingSystem.DTO.EditCategoryDto
+@{
+    Layout = "/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container mt-5">
+    <div class="card shadow-lg border-0 rounded-4 p-4" style="max-width: 550px; margin: auto;">
+        <h3 class="text-center fw-bold mb-4 text-primary">Edit Category</h3>
+
+        <form asp-area="Admin" asp-controller="Category" asp-action="EditCategory" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" asp-for="Id" />
+
+            <!-- Category Name -->
+           
+
+            <!-- Image Upload Section -->
+            <div class="form-group text-center mb-4">
+                <label class="form-label fw-semibold text-secondary d-block mb-2">Category Image</label>
+
+                <label for="CategoryImageInput" class="position-relative d-inline-block">
+                    <img id="imagePreview"
+                         src="@(!string.IsNullOrEmpty(Model.CategoryImagePath)
+                                ? Url.Content("~/" + Model.CategoryImagePath)
+                                : Url.Content("~/images/default-doctor.png"))"
+                         alt="@Model.CategoryName"
+                         class="rounded-circle border border-3 border-light shadow-sm"
+                         style="width:160px; height:160px; object-fit:cover; transition:0.3s;" />
+
+                    <div class="overlay position-absolute top-50 start-50 translate-middle text-white fw-semibold"
+                         style="background: rgba(0,0,0,0.5); width:160px; height:160px; border-radius:50%; opacity:0; transition:0.3s; display:flex; align-items:center; justify-content:center;">
+                        Change Image
+                    </div>
+                </label>
+
+                <input asp-for="CategoryImage"
+                       type="file"
+                       id="CategoryImageInput"
+                       name="CategoryImage"
+                       style="display:none;"
+                       accept="image/*" />
+
+                <span asp-validation-for="CategoryImage" class="text-danger small d-block mt-2"></span>
+            </div>
+            <div class="form-group mb-4">
+
+                <input asp-for="CategoryName" name="CategoryName" class="form-control form-control-lg rounded-3 shadow-sm" value="@Model.CategoryName" placeholder="Enter category name" />
+                <span asp-validation-for="CategoryName" class="text-danger small"></span>
+            </div>
+            <!-- Save Button -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-lg px-5 py-2 rounded-pill shadow-sm hover-glow">
+                    💾 Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- ✅ Custom Styling -->
+<style>
+    /* Card & Input Effects */
+    .form-control:focus {
+        box-shadow: 0 0 8px rgba(13, 110, 253, 0.4);
+        border-color: #0d6efd;
+    }
+
+    /* Image Hover Overlay */
+    label[for="CategoryImageInput"]:hover img {
+        filter: brightness(0.8);
+    }
+
+    label[for="CategoryImageInput"]:hover .overlay {
+        opacity: 1;
+        cursor: pointer;
+    }
+
+    /* Glow on Save Button */
+    .hover-glow:hover {
+        box-shadow: 0 0 15px rgba(13, 110, 253, 0.6);
+        transform: translateY(-2px);
+        transition: 0.3s ease-in-out;
+    }
+</style>
+
+<!-- ✅ Preview Script -->
+<script>
+    const input = document.getElementById("CategoryImageInput");
+    const preview = document.getElementById("imagePreview");
+
+    if (input) {
+        input.addEventListener("change", function (e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (ev) {
+                    preview.src = ev.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+</script>

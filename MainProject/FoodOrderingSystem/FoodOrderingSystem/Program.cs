@@ -1,12 +1,15 @@
 using FoodOrderingSystem.Extensions;
+using FoodOrderingSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
+builder.Services.AddSession();
 builder.Services.AddAutoMapper(typeof(AutomapperProfile).Assembly);
-
+builder.Services.AddTransient<EmailService>();
+builder.Services.AddAutoMapper(typeof(AutomapperProfile));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -23,11 +26,20 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseSession();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Public}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
 
+	endpoints.MapControllerRoute(
+		name: "areas",
+		pattern: "{area:exists}/{controller=Public}/{action=Index}/{id?}");
+
+
+	endpoints.MapControllerRoute(
+		name: "default",
+		pattern: "{controller=Public}/{action=Index}/{id?}");
+});
 
 
 app.Run();

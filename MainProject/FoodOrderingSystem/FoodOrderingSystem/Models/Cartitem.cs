@@ -11,9 +11,8 @@ public partial class Cartitem
 {
     [Key]
     public Guid CartItemId { get; set; }
-
-    public Guid Cartid { get; set; }
-
+    [ForeignKey("Cart")]
+    public Guid cartId { get; set; }
     public Guid DishId { get; set; }
 
     public int Quanity { get; set; }
@@ -27,4 +26,6 @@ public partial class Cartitem
     [ForeignKey("DishId")]
     [InverseProperty("Cartitems")]
     public virtual Dish Dish { get; set; } = null!;
+	public virtual Cart Cart { get; set; } = null!;
+
 }

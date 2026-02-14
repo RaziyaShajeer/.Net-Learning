@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using FoodOrderingSystem.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace FoodOrderingSystem.Models;
@@ -10,7 +11,7 @@ namespace FoodOrderingSystem.Models;
 public partial class Dish
 {
     [Key]
-    public Guid DishId { get; set; }
+    public Guid DishId { get; set; } = Guid.NewGuid();
 
     [StringLength(50)]
     [Unicode(false)]
@@ -19,19 +20,20 @@ public partial class Dish
     [Unicode(false)]
     public string Description { get; set; } = null!;
 
-    public byte[]? DishImage { get; set; }
 
-    public int Category { get; set; }
+	[ForeignKey("category")]
+	public Guid CategoryId { get; set; }
 
-    public int Availablity { get; set; }
+    public string DishImagePath { get;set; }    
+	public DishAvailability Availablity { get; set; }
 
     [Column(TypeName = "datetime")]
-    public DateTime Createdat { get; set; }
-
+    public DateTime Createdat { get; set; } = DateTime.Now;
+    public DishType dishType { get; set; }
     public Guid RestaurantId { get; set; }
 
     [Column(TypeName = "decimal(18, 0)")]
-    public decimal? Price { get; set; }
+    public decimal Price { get; set; }
 
     [InverseProperty("Dish")]
     public virtual ICollection<Cartitem> Cartitems { get; set; } = new List<Cartitem>();
@@ -39,4 +41,6 @@ public partial class Dish
     [ForeignKey("RestaurantId")]
     [InverseProperty("Dishes")]
     public virtual RestaurantProfile Restaurant { get; set; } = null!;
+	public virtual Category category { get; set; }
+
 }

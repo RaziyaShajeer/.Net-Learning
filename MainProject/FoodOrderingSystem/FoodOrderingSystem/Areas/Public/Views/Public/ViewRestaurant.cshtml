@@ -1,0 +1,59 @@
+﻿@model FoodOrderingSystem.Models.RestaurantProfile
+
+@{
+    ViewData["Title"] = "View Restaurant";
+
+    if (Context.Session.GetString("Role") == "HotelManager")
+    {
+        Layout = "/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
+}
+
+<div class="container mt-5 mb-5">
+    <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+        <div class="row g-0">
+            <!-- Restaurant Image -->
+            <div class="col-md-5 d-flex align-items-center justify-content-center bg-light">
+                <img src="@Url.Content("~/" + Model.Restaurantimage)"
+                     alt="@Model.RestaurantName"
+                     class="img-fluid rounded-circle shadow"
+                     style="width: 280px; height: 280px; object-fit: cover; margin: 30px 0;" />
+            </div>
+
+            <!-- Restaurant Details -->
+            <div class="col-md-7 p-5 bg-white">
+                <h2 class="fw-bold text-primary mb-3">@Model.RestaurantName</h2>
+
+                <div class="mb-3">
+                    <span class="badge bg-secondary fs-6">@Model.RestauratType</span>
+                </div>
+
+                <ul class="list-unstyled fs-5 text-muted">
+                    <li class="mb-2">
+                        <i class="bi bi-geo-alt-fill text-danger"></i>
+                        <strong>Location:</strong> @Model.LocationName
+                    </li>
+                    <li class="mb-2">
+                        <i class="bi bi-telephone-fill text-success"></i>
+                        <strong>Phone:</strong> @Model.Phone
+                    </li>
+                </ul>
+
+                <hr class="my-4" />
+
+                <div>
+                    <a asp-action="Edit" asp-route-id="@Model.RestaurantId" class="btn btn-outline-primary me-2">
+                        <i class="bi bi-pencil-square"></i> Edit
+                    </a>
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

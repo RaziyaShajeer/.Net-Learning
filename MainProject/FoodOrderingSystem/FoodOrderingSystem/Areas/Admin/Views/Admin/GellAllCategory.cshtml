@@ -1,0 +1,71 @@
+﻿@model IEnumerable<FoodOrderingSystem.Models.Category>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Add Button Top-Right -->
+<div class="text-end mb-4 mt-4">
+    <a href="@Url.Action("AddCategory","Admin", new { area = "Admin" })" class="btn btn-success btn-lg shadow-sm">
+        Add Category
+    </a>
+</div>
+
+<div class="container">
+    <div class="row">
+        @foreach (var category in Model)
+        {
+            <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                <div class="card h-100 shadow-lg rounded-4 overflow-hidden hover-scale">
+                    <div class="position-relative">
+                        <img src="@Url.Content("~/" + category.CategoryImagePath)"
+                             alt="@category.CategoryName"
+                             class="card-img-top rounded-circle mx-auto mt-3 shadow"
+                             style="width:150px; height:150px; object-fit:cover; display:block;" />
+                    </div>
+                    <div class="card-body text-center d-flex flex-column">
+                        <h5 class="card-title fw-bold text-primary">@category.CategoryName</h5>
+                        <p class="text-muted mb-3">ID: @category.Id</p>
+                        <div class="mt-auto d-flex justify-content-center gap-2">
+                            <a href="@Url.Action("EditCategory","Admin",new { area = "Admin",id=category.Id })" asp-route-id="@category.Id" class="btn btn-sm btn-outline-warning">Edit</a>
+                            <a  href="@Url.Action("deleteCategory","Admin",new { area = "Admin",id=category.Id })" asp-route-id="@category.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    /* Hover scale effect */
+    .hover-scale:hover {
+        transform: translateY(-5px) scale(1.05);
+        transition: all 0.3s ease-in-out;
+    }
+
+        .hover-scale:hover .card-img-top {
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+    /* Smooth card transition */
+    .card {
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    /* Buttons hover */
+    .btn-outline-warning:hover {
+        background-color: #ffc107;
+        color: #fff;
+    }
+
+    .btn-outline-danger:hover {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .btn-success:hover {
+        background-color: #28a745;
+        color: #fff;
+    }
+</style>

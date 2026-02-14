@@ -19,6 +19,5 @@ public partial class Location
     [InverseProperty("Location")]
     public virtual ICollection<MyUser> MyUsers { get; set; } = new List<MyUser>();
 
-    [InverseProperty("Location")]
-    public virtual ICollection<RestaurantProfile> RestaurantProfiles { get; set; } = new List<RestaurantProfile>();
+  
 }

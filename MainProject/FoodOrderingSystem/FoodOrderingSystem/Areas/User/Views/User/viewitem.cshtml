@@ -1,0 +1,106 @@
+﻿@model FoodOrderingSystem.Areas.User.Data.DishDTO
+
+@{
+    ViewData["Title"] = "Dish Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg rounded-4 overflow-hidden">
+                <div class="row g-0">
+
+                    <div class="col-md-5 text-center bg-light p-4">
+                        <img src="@Url.Content("~/" + Model.DishImagePath)"
+                             alt="@Model.DishName"
+                             class="img-fluid rounded-circle shadow"
+                             style="width:220px; height:220px; object-fit:cover;" />
+                    </div>
+
+                    <div class="col-md-7">
+                        <div class="card-body p-4">
+                            <h3 class="fw-bold mb-2">@Model.DishName</h3>
+
+                            <p class="mb-2">
+                                <strong>Category:</strong> @Model.CategoryName
+                            </p>
+
+                            <h4 class="text-success fw-bold mt-3">
+                                ₹ @Model.Price
+                            </h4>
+                            <form>
+
+                                <input type="hidden" name="dishId" value="@Model.DishId" />
+
+                                <div class="d-flex align-items-center gap-2 mb-3">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                            onclick="decreaseQty()">
+                                        −
+                                    </button>
+
+                                    <input type="number"
+                                           id="qty"
+                                           name="quantity"
+                                           value="1"
+                                           min="1"
+                                           class="form-control text-center"
+                                           style="width:70px" />
+
+                                    <button type="button" class="btn btn-outline-secondary"
+                                            onclick="increaseQty()">
+                                        +
+                                    </button>
+                                </div>
+
+                                <button class="btn btn-success" onclick="addToCart()" type="button">
+                                    Add to Cart
+                                </button>
+                            </form>
+                            <div class="mt-4 d-flex gap-3">
+                                <a href="javascript:history.back()" class="btn btn-outline-secondary">
+                                    ⬅ Back
+                                </a>
+
+                                
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function increaseQty() {
+        let qty = document.getElementById("qty");
+        qty.value = parseInt(qty.value) + 1;
+    }
+
+    function decreaseQty() {
+        let qty = document.getElementById("qty");
+        let current = parseInt(qty.value);
+        if (current > 1) {
+            qty.value = current - 1;
+        }
+    }
+        function addToCart() {
+
+        fetch('/User/User/AddToCart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                dishId: '@Model.DishId',
+                quantity: parseInt(document.getElementById('qty').value)
+            })
+        })
+        .then(response => console.log(response))
+        .catch(error => console.log(error));
+    }
+
+
+</script>

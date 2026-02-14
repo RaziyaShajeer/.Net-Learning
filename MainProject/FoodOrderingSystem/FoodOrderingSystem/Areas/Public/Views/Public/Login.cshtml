@@ -1,0 +1,65 @@
+﻿@using FoodOrderingSystem
+@using FoodOrderingSystem.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@model FoodOrderingSystem.DTO.UserDTO
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<head>
+
+    <style>
+
+
+        .login {
+            max-width: 400px;
+            height: 350px;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(255, 255,255,0.15);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn {
+            background-color: #432119;
+            border: none
+        }
+
+            .btn:hover {
+                background-color: #6a3e1d;
+            }
+
+    </style>
+</head>
+<body>
+    <div class="container-fluid" style="background: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092') no-repeat center center/cover;height:85vh">
+
+        <div class="container login ">
+            <h2 class="text-center mb-4">Login Form</h2>
+            <form id="LoginForm" asp-action="Login" asp-area="Public" asp-controller="Public">
+                <div class="mb-3">
+                    <label for="name" class="form-label">Email</label>
+                    <input name="Email" type="text" class="form-control" id="name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input name="password" type="text" class="form-control" id="password" required>
+                </div>
+                <button type="submit" class="btn text-white mt-3 w-75 ms-5">Login</button>
+
+            </form>
+
+
+        </div>
+    </div>
+
+</body>
+

@@ -1,0 +1,130 @@
+﻿@using FoodOrderingSystem
+@using FoodOrderingSystem.Models
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@model FoodOrderingSystem.DTO.UserDTO
+
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<head>
+    <style>
+        /* body { */
+        /*     background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092') no-repeat center center/cover; */
+        /*     min-height: 100vh; */
+        /*     color: white; */
+        /*     display: flex; */
+        /*     justify-content: center; */
+        /*     align-items: center; */
+        /* } */
+
+        .register {
+            max-width: 500px;
+            height: 600px;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn {
+            background-color: #432119;
+            border: none
+        }
+
+            .btn:hover {
+                background-color: #6a3e1d;
+            }
+    </style>
+</head>
+
+<div class="container-fluid" style="background: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092') no-repeat center center/cover">
+
+
+
+<div class="container register">
+        <h2 class="text-center mb-4">Register</h2>
+        <form asp-action="Register" asp-area="Public" asp-controller="Public">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Lastname" class="control-label"></label>
+                    <input asp-for="Lastname" class="form-control" />
+                    <span asp-validation-for="Lastname" class="text-danger"></span>
+                    
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Password" class="control-label"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <!-- <div class=" col-md-6 mb-3">
+                    <label for="confirmPassword" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required
+                        minlength="6">
+                </div> -->
+                <!-- Category -->
+                <div class="mb-3">
+                    <label for="LocationId" class="form-label fw-semibold">Location</label>
+                    <select id="LocationId" name="LocationId" class="form-select">
+                        <option value="">-- Choose a Location --</option>
+                        @foreach (var item in (List<SelectListItem>)ViewBag.LocationList)
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    </select>
+                    <span asp-validation-for="LocationId" class="text-danger"></span>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="State" class="control-label"></label>
+                    <input asp-for="State" class="form-control" />
+                    <span asp-validation-for="State" class="text-danger"></span>
+                </div>
+              
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Phone" class="control-label"></label>
+                    <input asp-for="Phone" class="form-control" />
+                   
+                </div>
+                <p>  @TempData["Messgae"] </p>
+                <button type="submit" class="btn text-white w-75 ms-5 mt-3">Register</button>
+
+        </form>
+
+
+    </div>
+
+</div>
+
+       
+   
+
+
+
+@* @section Scripts { *@
+@*     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} *@
+@* } *@
