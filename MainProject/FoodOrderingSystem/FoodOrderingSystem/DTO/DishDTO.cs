@@ -1,5 +1,8 @@
 ﻿using FoodOrderingSystem.Enums;
+using FoodOrderingSystem.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FoodOrderingSystem.DTO
@@ -19,7 +22,23 @@ namespace FoodOrderingSystem.DTO
         public decimal? Price { get; set; }
 
         public Guid RestaurantId { get; set; }
-            
-    }
+		public DishType DishType { get; set; }	
+		public IEnumerable<SelectListItem>? dishTypelist { get; set; }
+
+		public IEnumerable<SelectListItem>? categoryList { get; set; }
+
+
+
+
+
+
+
+		public DishAvailability Availablity { get; set; }
+
+		
+
+		
+		
+	}
 }
 

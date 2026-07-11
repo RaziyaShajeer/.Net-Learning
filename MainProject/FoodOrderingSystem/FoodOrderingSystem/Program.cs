@@ -1,15 +1,19 @@
 using FoodOrderingSystem.Extensions;
+using FoodOrderingSystem.Models;
 using FoodOrderingSystem.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddDbContext<MyDbContext>(options =>
+	options.UseSqlServer(
+		builder.Configuration.GetConnectionString("DefaultConnection")));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddSession();
 builder.Services.AddAutoMapper(typeof(AutomapperProfile).Assembly);
 builder.Services.AddTransient<EmailService>();
-builder.Services.AddAutoMapper(typeof(AutomapperProfile));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -1,4 +1,4 @@
-﻿@model FoodOrderingSystem.Areas.User.Data.DishDTO
+﻿@model FoodOrderingSystem.DTO.DishViewDTO
 
 @{
     ViewData["Title"] = "Dish Details";
@@ -53,7 +53,7 @@
                                     </button>
                                 </div>
 
-                                <button class="btn btn-success" onclick="addToCart()" type="button">
+                                <button class="btn btn-success" onclick="AddToCart()" type="button">
                                     Add to Cart
                                 </button>
                             </form>
@@ -86,7 +86,7 @@
             qty.value = current - 1;
         }
     }
-        function addToCart() {
+        function AddToCart() {
 
         fetch('/User/User/AddToCart', {
             method: 'POST',

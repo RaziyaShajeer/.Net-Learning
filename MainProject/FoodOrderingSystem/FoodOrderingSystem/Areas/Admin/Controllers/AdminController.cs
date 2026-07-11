@@ -248,6 +248,8 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
         {
             try
             {
+                DishDTO dishDTO = new DishDTO();    
+
 				var categoryList = _context.Category
 		   .Select(c => new SelectListItem
 		   {
@@ -267,8 +269,9 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
 				 
 
 			}).ToList();
-				ViewBag.dishtype = DishtypeList;  
-				return View();
+			dishDTO.dishTypelist = DishtypeList;
+                dishDTO.categoryList = categoryList;    
+				return View(dishDTO);
 				
 				
                    
@@ -330,7 +333,9 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
 				Dish dish = new Dish();
 				if (ModelState.IsValid)
                 {
-                 
+					string restaurantIdStr = HttpContext.Session.GetString("restaurantId");
+                    dish.RestaurantId =Guid.Parse( restaurantIdStr);
+
 
 					var fileName = "";
 					if (dishDTO.DishImageFile != null && dishDTO.DishImageFile.Length > 0)
@@ -393,7 +398,7 @@ namespace FoodOrderingSystem.Areas.Admin.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> AddCategory(CategoryDto categoryDto)
+        public async Task<IActionResult> AddCategory(CategoryDTO categoryDto)
         {
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(categoryDto.CategoryImage.FileName)}";
             var imagesPath = Path.Combine(_env.WebRootPath, "uploads");

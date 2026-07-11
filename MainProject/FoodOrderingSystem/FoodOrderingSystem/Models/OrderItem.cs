@@ -17,11 +17,14 @@ public partial class OrderItem
 
     [Column(TypeName = "decimal(18, 0)")]
     public decimal TotalAmount { get; set; }
-
-    [Column(TypeName = "datetime")]
+    public Guid DishId { get; set; }
+    public int Quantity { get; set; }
+		[Column(TypeName = "datetime")]
     public DateTime? CreatedAt { get; set; }
 
     [ForeignKey("OrderItemId")]
     [InverseProperty("OrderItem")]
     public virtual MyOrder OrderItemNavigation { get; set; } = null!;
+    public Decimal Total { get; set; }
+    public decimal Price { get; set; }  
 }

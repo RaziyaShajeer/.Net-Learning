@@ -12,7 +12,7 @@
 </head>
 
     @{
-            var userID = Context.Session.GetString("UserId");
+                var userID = Context.Session.GetString("UserId");
         var username = Context.Session.GetString("Username");
         int cartCount = 0;
 
@@ -48,6 +48,14 @@
                         <li class="nav-item"><a class="nav-link" href="#">Offers</a></li>-->
                         @if (!string.IsNullOrEmpty(userID))
                         {
+                            <!-- Cart Icon -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("ViewCart", "Cart", new { area = "User" })">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
+                            </li>
+
+                            <!-- Logout -->
                             <li class="nav-item">
                                 <a class="nav-link"
                                    href="@Url.Action("Logout", "Public", new { area = "Public" })">

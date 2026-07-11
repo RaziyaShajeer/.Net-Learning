@@ -74,13 +74,13 @@
             <div class="col-md-4 mb-4">
                 <div class="dish-card">
                     <div class="student-card">
-                        <img src="@Url.Content("~/" + item.ImagePath)" alt="Student Image" width="100" height="100" />
+                        <img src="@Url.Content("~/" + item.DishImagePath)" alt="Student Image" width="100" height="100" />
                         <div>@item.DishName</div>
                     </div>
                     <div class="dish-name">@item.DishName</div>
                     <div class="dish-details">
                         ₹@item.Price | @item.Availablity <br />
-                        @item.Category 
+                        @item.category 
                     </div>
                     <div class="card-footer">
                         <a asp-action="Edit" asp-route-id="@item.DishId" class="btn btn-sm btn-outline-primary">Edit</a>

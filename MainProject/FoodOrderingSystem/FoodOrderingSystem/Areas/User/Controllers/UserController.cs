@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FoodOrderingSystem.Areas.User.Data;
 using FoodOrderingSystem.DTO;
+using FoodOrderingSystem.Enums;
 using FoodOrderingSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +35,7 @@ namespace FoodOrderingSystem.Areas.User.Controllers
 				return NotFound(); // or redirect to error page
 			}
 
-			var dishDto = _mapper.Map<DishDTO>(dish);
+			var dishDto = _mapper.Map<DishViewDTO>(dish);
 
 			return View(dishDto);
 		}
@@ -96,7 +97,62 @@ namespace FoodOrderingSystem.Areas.User.Controllers
 			}
 
 			context.SaveChanges();
-			return Ok();
+			return RedirectToAction("ViewAllDishes", "Admin");
+		}
+		[HttpPost]
+		public IActionResult PlaceOrder(MyOrder model)
+		{
+			var userIdString = HttpContext.Session.GetString("UserId");
+
+			if (string.IsNullOrEmpty(userIdString))
+				return RedirectToAction("Login", "Account");
+
+			var userId = Guid.Parse(userIdString);
+
+			// Get user's cart
+			var cart = context.Carts.FirstOrDefault(c => c.UserId == userId);
+			if (cart == null)
+				return RedirectToAction("MyCart");
+
+			var cartItems = context.Cartitems
+				.Include(c => c.Dish)
+				.Where(c => c.cartId == cart.CartId)
+				.ToList();
+
+			// Create Order
+			var order = new MyOrder
+			{
+				OrderId = Guid.NewGuid(),
+				UserId = userId,
+				Address = model.Address,
+				PaymentMode = PaymentMode.CashOnDelivery,
+				OrderDate = DateTime.Now,
+				TotalAmount = cartItems.Sum(x => x.Total),
+				DeliveryStatus = DeliveryStatus.Pending
+			};
+
+			context.MyOrders.Add(order);
+			foreach (var item in cartItems)
+			{
+				var orderItem = new OrderItem
+				{
+					OrderItemId = Guid.NewGuid(),
+					OrderId = order.OrderId,
+					DishId = item.DishId,
+					Quantity = item.Quanity,
+					Price = item.Price,
+					Total = item.Total
+				};
+
+				context.OrderItems.Add(orderItem);
+			}
+
+			context.Cartitems.RemoveRange(cartItems);
+
+			context.SaveChanges();
+
+			return RedirectToAction("OrderSuccess");
+
 		}
 	}
 

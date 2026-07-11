@@ -16,8 +16,7 @@ public partial class Location
     [Unicode(false)]
     public string LocationName { get; set; } = null!;
 
-    [InverseProperty("Location")]
-    public virtual ICollection<MyUser> MyUsers { get; set; } = new List<MyUser>();
+    
 
   
 }

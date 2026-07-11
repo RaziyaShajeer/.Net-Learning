@@ -129,7 +129,8 @@ namespace FoodOrderingSystem.Areas.Public.Controllers
             try
             {
                 var user = _context.MyUsers.Where(u => u.Email == Email && u.Password == password).FirstOrDefault();
-                
+
+
                 if (user != null)
                 {
                     HttpContext.Session.SetString("UserId", user.UserId.ToString());

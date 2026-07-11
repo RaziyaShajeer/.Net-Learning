@@ -1,5 +1,5 @@
 ﻿@model FoodOrderingSystem.DTO.DishDTO
-
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Add Dish";
 
@@ -14,6 +14,8 @@
 }
 
 <div class="container mt-5 mb-5">
+    <p>Category Count: @(Model.categoryList?.Count() ?? 0)</p>
+    <p>DishType Count: @(Model.dishTypelist?.Count() ?? 0)</p>
     <div class="card shadow-lg border-0 rounded-4">
         <div class="card-header bg-primary text-white text-center py-3 rounded-top-4">
             <h3 class="mb-0"><i class="bi bi-plus-circle"></i> Add New Dish</h3>
@@ -39,15 +41,26 @@
 
                 <!-- Category -->
                 <div class="mb-3">
-                    <label for="CategoryId" class="form-label fw-semibold">Category</label>
-                    <select id="CategoryId" name="CategoryId" class="form-select">
-                        <option value="">-- Choose a Category --</option>
-                        @foreach (var item in (List<SelectListItem>)ViewBag.Categories)
-                        {
-                            <option value="@item.Value">@item.Text</option>
-                        }
+                    <label asp-for="CategoryId" class="control-label fw-bold"></label>
+                    <select asp-for="CategoryId"
+                            class="form-control"
+                            asp-items="Model.categoryList">
+                        <option value="">-- Select Category --</option>
                     </select>
+
+
                     <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DishType" class="control-label fw-bold"></label>
+                    <select asp-for="DishType"
+                            class="form-control"
+                            asp-items="Model.dishTypelist">
+                        <option value="">-- Select Type --</option>
+                    </select>
+
+
+                    <span asp-validation-for="DishType" class="text-danger"></span>
                 </div>
 
                 <!-- Price -->

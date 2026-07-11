@@ -23,12 +23,12 @@
         <div class="col-md-4 ms-auto">
             <select class="form-select form-select-lg shadow-sm"
                     onchange="location.href='?restaurantId=' + this.value">
-                <option value="">-- Select Restaurant --</option>
+                <option value="">-- Select Dishes --</option>
 
-                @foreach (var restaurant in Model.Restaurants)
+                @foreach (var dishes in Model.DishList)
                 {
-                    <option value="@restaurant.RestaurantId">
-                        @restaurant.RestaurantName
+                    <option value="@dishes.DishId">
+                        @dishes.DishName
                     </option>
                 }
             </select>
